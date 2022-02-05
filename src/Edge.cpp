@@ -8,7 +8,7 @@ Edge::Edge(  Vertex* v1,  Vertex* v2, int weight /*= -1*/ )
 
 	//for graphics
 	m_color			= sf::Color::Red;
-	float OFFSET	= 20;
+	float OFFSET	= 0;
 
 	float x1 = v1->getPosition().x;
 	float y1 = v1->getPosition().y;
@@ -29,10 +29,19 @@ Edge::Edge(  Vertex* v1,  Vertex* v2, int weight /*= -1*/ )
 		else
 			angle = 90;
 	} else {
+		float x = x2 - x1;
+		float y = y2 - y1;
+		float slope = (y2 - y1) / (x2 - x1);
+		angle = 180/3.14 * atan( slope );
 
-		angle = 180/3.14 * atan( y2 - y1 / (x2 - x1));
+		if ( x < 0 ) {
+			if ( y < 0 ) 
+				angle -= 180;
+			else 
+				angle += 180;
+		}
 	}
-	std::cerr << "coord:"<<x1<<','<<y1<<'a'<<x2<<','<<y2;
+	
 
 	m_line->setRotation( angle );
 

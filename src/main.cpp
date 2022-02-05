@@ -9,7 +9,7 @@ int main()
     sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode( SCREEN_WIDTH, SCREEN_HEIGHT ), "Graph Algorithm visualizer" );
 
     Vertex* v1 = new Vertex(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-    Vertex* v2 = new Vertex(600, 100);
+    Vertex* v2 = new Vertex(200, 100);
     Edge* e =  new Edge(v1, v2);
     
 

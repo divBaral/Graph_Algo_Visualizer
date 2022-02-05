@@ -4,8 +4,9 @@ Vertex::Vertex( float x, float y )
 {
 
 	m_shape			= new sf::CircleShape( m_radius ) ;
-	m_position		= sf::Vector2f(x - m_radius , y - m_radius );
-	m_color			= sf::Color::Red;
+	m_shape->setOrigin( m_radius, m_radius );
+	m_position		= sf::Vector2f(x  , y);
+	m_color			= sf::Color::Blue;
 	m_scanned 		= false;
 	m_scanning		= false;
 	m_val			= 0;
