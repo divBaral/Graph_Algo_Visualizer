@@ -1,24 +1,29 @@
+#include <Vertex.h>
+#include <Edge.h>
+#include <list>
+#include <map>
 
-/*
 class Graph 
 {
 public:
 	Graph();
+	Graph::Graph( int, int );
 private:
-	void addEdge(const Edge& e);
-	void addVertex(const Vertex& v);
+	void addEdge();
+	void addVertex();
 	void draw();
 
 private:
-	int m_verticesno;
-	int m_edgesno;
+	int m_verticesno=0;
+	int m_edgesno=0;
 
-	//std::list<Vertex*> *vertices;
-
-	std::unordered_map< Vertex* , std::list<Vertex*> > graph;
+public:
+	static std::list<Vertex*> vertices;
+	static std::map< Vertex* , std::list<Vertex*> > m_adj;
+	static std::map< std::pair<Vertex*, Vertex*> , Edge*> m_edgeList;
+	//bfs,dfs, krusal, prim, dijstra 
 
 
 
 
 };
-*/

@@ -1,5 +1,5 @@
-#include "Edge.h"
 #include <iostream>
+#include "../include/Edge.h"
 Edge::Edge(  Vertex* v1,  Vertex* v2, int weight /*= -1*/ )
 {
 	m_v1		= v1;
