@@ -1,12 +1,9 @@
 // using binary heap, a minimum heap
-#include <iostream>
-#include <vector>
 #include "../include/priorityqueue.h"
 
 heap::heap()
 {
-    size = 1;
-    lastindex = -1;
+    lastindex = -1;   //keeping track of the last item of heap tree
 }
 
 void heap::swap(int index1, int index2)
