@@ -1,4 +1,4 @@
-#include "Vertex.h"
+#include "../include/Vertex.h"
 
 Vertex::Vertex( float x, float y )
 {
@@ -11,6 +11,7 @@ Vertex::Vertex( float x, float y )
 	m_val			= 0;
 
 }
+
 void Vertex::draw( sf::RenderWindow* window )
 {
 	m_shape->setPosition( m_position );
@@ -18,6 +19,7 @@ void Vertex::draw( sf::RenderWindow* window )
 	window->draw( *m_shape );
 
 }
+
 void Vertex::update()
 {
 
@@ -26,10 +28,12 @@ void Vertex::update()
 	if ( m_scanning )
 		m_color = sf::Color::Green;
 }
+
 sf::Vector2f Vertex::getPosition()
 {
 	return m_position;
 }
+
 Vertex::~Vertex()
 {
 	if ( m_shape ) {
