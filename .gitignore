@@ -3,3 +3,4 @@ graph.sublime-project
 graph.sublime-workspace
 main
 *.o
+build.sh
