@@ -10,7 +10,7 @@ Vertex::Vertex( float x, float y )
 		std::cerr << "Texture not loaded ";
 	m_sprite = new sf::Sprite;
 	m_texture->setSmooth( true );
-	m_sprite->setTexture( *m_texture );
+	m_sprite->setTexture( *m_texture[0] );
 	m_sprite->setOrigin( m_radius, m_radius );
 	
 	
@@ -34,9 +34,9 @@ void Vertex::update()
 {
 
 	if ( m_scanned )
-		m_color = sf::Color::Blue;
+		m_sprite->setTexture( * m_texture[2] )
 	if ( m_scanning )
-		m_color = sf::Color::Green;
+		m_sprite->setTexture( * m_texture[1] );
 }
 sf::Vector2f Vertex::getPosition()
 {
