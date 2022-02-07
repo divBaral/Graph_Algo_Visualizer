@@ -5,3 +5,5 @@ main
 *.o
 build.sh
 .vscode
+CMakeLists.txt
+build
