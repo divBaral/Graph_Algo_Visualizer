@@ -1,4 +1,4 @@
-#include "../include/Dijkstra.h"
+#include "Dijkstra.h"
 
 Dijkstra::Dijkstra(Vertex *start)
 {

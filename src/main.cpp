@@ -1,5 +1,5 @@
-#include "../include/Vertex.h"
-#include "../include/Edge.h"
+#include "Vertex.h"
+#include "Edge.h"
 
 constexpr int SCREEN_WIDTH = 800;
 constexpr int SCREEN_HEIGHT = 640;

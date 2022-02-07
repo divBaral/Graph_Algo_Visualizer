@@ -1,5 +1,5 @@
 // using binary heap, a minimum heap
-#include "../include/priorityqueue.h"
+#include "priorityqueue.h"
 
 heap::heap()
 {
