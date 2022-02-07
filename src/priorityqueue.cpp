@@ -21,6 +21,7 @@ float heap::getDist(std::list<Edge*> routes)
     {
         dis += edge->m_weight;
     }
+    return dis;
 }
 
 int heap::parentnode(int index)
