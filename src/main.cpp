@@ -1,5 +1,4 @@
-#include "Vertex.h"
-#include "Edge.h"
+#include "Graph.h"
 
 constexpr int SCREEN_WIDTH = 800;
 constexpr int SCREEN_HEIGHT = 640;
@@ -7,10 +6,11 @@ constexpr int SCREEN_HEIGHT = 640;
 int main()
 {
     sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode( SCREEN_WIDTH, SCREEN_HEIGHT ), "Graph Algorithm visualizer" );
+    if ( window ) 
+    {
 
-    Vertex* v1 = new Vertex(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-    Vertex* v2 = new Vertex(600, 100);
-    Edge* e =  new Edge(v1, v2);
+    Graph* g = new Graph();
+    g->addVertex();
     
 
     while ( window->isOpen() )
@@ -23,15 +23,16 @@ int main()
         }
 
         window->clear( sf::Color::White );
-
-        v1->draw( window );
-        v2->draw( window );
-        e->draw( window );
-
+        g->draw( window );
 
 
         window->display();
     }
+
+    }
+
+   
+   
 
     return 0;
 }
