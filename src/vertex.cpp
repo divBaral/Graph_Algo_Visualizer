@@ -36,7 +36,7 @@ void Vertex::update()
 {
 
 	if ( m_scanned )
-		m_sprite->setTexture( * m_texture[2] )
+		m_sprite->setTexture( * m_texture[2] );
 	if ( m_scanning )
 		m_sprite->setTexture( * m_texture[1] );
 }
