@@ -1,33 +1,33 @@
-#include <Vertex.h>
-#include <Edge.h>
+#pragma once
+#include "Vertex.h"
+#include "Edge.h"
 #include <list>
-// #include <map>
-#include <unordered_map>
-#include <list>
+// #include <unordered_map>
+#include <map>
+#include <vector>
 
 class Graph 
 {
 public:
 	Graph();
 	void addEdge(Vertex* v, Vertex* u);
-	void addVertex(); 
+	void addVertex(float, float); 
 	void draw( sf::RenderWindow* window );
 
 private:
-	int m_verticesno=0;
-	int m_edgesno=0;
+	static int m_verticesno;
+	static int m_edgesno;
 
 public:
-	static std::list<Vertex*> vertices;
 	// static std::map< Vertex* , std::list<Vertex*> > m_adj;
-	std::unordered_map< Vertex* , std::list<Vertex*> > m_adj;
+	static std::map< Vertex* , std::list<Vertex*> > m_adj;
 	static std::map< std::pair<Vertex*, Vertex*> , Edge*> m_edgeList;
-	Edge* getEdge(Vertex*, Vertex*);
 	
 
 
 	//for graphics
-	std::vector<Edge*> edges;
+	static std::vector<Vertex*> vertices;
+	static std::vector<Edge*> edges;
 	// std::vector<Vertex*> vertices;
 
 
