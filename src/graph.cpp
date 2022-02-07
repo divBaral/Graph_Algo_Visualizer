@@ -1,28 +1,38 @@
 #include "Graph.h"
 
-Graph::Graph( int v=0, int e=0 )
+Graph::Graph()
 {
 
 }
-bool addVertex()
+void Graph::addVertex()
 {
+	Vertex* v1 = new Vertex( 400, 500 );
+	Vertex* v2 = new Vertex(100, 100);
 
+	vertices.push_back(v1);
+	vertices.push_back(v2);
+	m_verticesno++;
+	addEdge( v1, v2 );
 	
-	if ( m_vertexmode ) {
-		Vertex* v1 = new Vertex(400, 500);
-    	Vertex* v2 = new Vertex(100, 100);
-		m_verticesno++;
-	}
 
 
 }
-bool addEdge( Vertex* v, Vertex* u )
+void Graph::addEdge( Vertex* v, Vertex* u )
 {
-	if ( m_edgemode ) {
-		m_adj[v].push_front( u );
-		m_adj[u].push_front( v );
-		m_edgesno++;
-		return true;
-	}
-	return false;
+	
+	m_adj[v].push_front( u );
+	m_adj[u].push_front( v );
+
+	Edge* e = new Edge( u, v );
+	edges.push_back( e );
+	m_edgesno++;
+	
+}
+void Graph::draw( sf::RenderWindow* window )
+{
+	for ( Vertex* v : vertices )
+		v->draw( window );
+	for ( Edge* e : edges )
+		e->draw( window );
+
 }

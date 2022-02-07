@@ -19,7 +19,7 @@ Edge::Edge(  Vertex* v1,  Vertex* v2, int weight /*= -1*/ )
 	m_line = new sf::RectangleShape;
 	m_line->setPosition( x1 + OFFSET, y1 - OFFSET );
 	m_linesize.x = sqrt( pow(x2-x1, 2) + pow(y2-y1, 2) );
-	m_linesize.y = 10;
+	m_linesize.y = 2;
 	m_line->setSize( m_linesize );
 
 	double angle;
@@ -41,7 +41,7 @@ Edge::Edge(  Vertex* v1,  Vertex* v2, int weight /*= -1*/ )
 				angle += 180;
 		}
 	}
-	
+	std::cerr << x1 << ","<<y1;
 
 	m_line->setRotation( angle );
 
