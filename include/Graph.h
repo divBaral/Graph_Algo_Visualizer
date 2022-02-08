@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include "Vertex.h"
 #include "Edge.h"
 #include <list>
@@ -14,6 +15,7 @@ public:
 	void addVertex(float, float); 
 	void draw( sf::RenderWindow* window );
 	void removeVertex();
+	void removeEdge(Vertex* vertex);
 	Vertex* getVertex(sf::Vector2f);
 
 private:
@@ -28,12 +30,12 @@ public:
 
 
 	//for graphics
-	static std::vector<Vertex*> vertices;
-	static std::vector<Edge*> edges;
+	static std::list<Vertex*> vertices;
+	static std::list<Edge*> edges;
 	// std::vector<Vertex*> vertices;
 
 
-	//bfs,dfs, krusal, prim, dijstra 
+	//bfs,dfs, kruskal, prim, dijkstra 
 
 
 };
