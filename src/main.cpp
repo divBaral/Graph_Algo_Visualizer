@@ -16,6 +16,8 @@ int main()
         float tempx, tempy;       //for the addition of vertices after the mouse click is released
         bool singleClick = true;
 
+        Vertex *temp1, *temp2;
+
         window->setVerticalSyncEnabled(true); // synchronize refresh rate with frquency of monitor
 
         while (window->isOpen())
@@ -40,6 +42,7 @@ int main()
                     case sf::Event::MouseButtonPressed:
                         if(singleClick && event.mouseButton.button == sf::Mouse::Left) 
                         {
+                            temp1 = g->getVertex((sf::Vector2f)sf::Mouse::getPosition(*window));
                             singleClick = false;
                             tempx = sf::Mouse::getPosition(*window).x;      //to get the position when left mouse button is clicked      
                             tempy = sf::Mouse::getPosition(*window).y;      //and use that when it is released
@@ -47,9 +50,22 @@ int main()
                         break;
 
                     case event.MouseButtonReleased:
-                        singleClick = true;
-                        g->addVertex(tempx, tempy);            //adds vertex only after mouse button is released
-                        break;
+                        if(temp1)
+                        {
+                            singleClick = true;
+                            temp2 = g->getVertex((sf::Vector2f)sf::Mouse::getPosition(*window));
+                            if(temp2)
+                            {
+                                g->addEdge(temp1, temp2);
+                                temp1 = temp2 = NULL;
+                                break;
+                            }
+                        }
+                        else{
+                            singleClick = true;
+                            g->addVertex(tempx, tempy);            //adds vertex only after mouse button is released
+                            break;
+                        }
 
                     case sf::Event::KeyPressed:
                         if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
