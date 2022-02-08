@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Edge.h"
-Edge::Edge(  Vertex* v1,  Vertex* v2, int weight /*= -1*/ )
+Edge::Edge(  Vertex* v1,  Vertex* v2, int weight )
 {
 	m_v1		= v1;
 	m_v2		= v2;

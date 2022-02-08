@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Graph.h"
 
 constexpr int SCREEN_WIDTH = 800;
@@ -5,46 +6,70 @@ constexpr int SCREEN_HEIGHT = 640;
 
 int main()
 {
-    sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode( SCREEN_WIDTH, SCREEN_HEIGHT ), "Graph Algorithm visualizer" );
-    if ( window ) 
-    {
+    sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Graph Algorithm visualizer");
 
-    Graph* g = new Graph();
-    // g->addVertex();
-    
-
-    while ( window->isOpen() )
+    if (window)
     {
-        sf::Event event;
-        while ( window->pollEvent(event) )
+        Graph *g = new Graph();
+        // g->addVertex();
+
+        float tempx, tempy;       //for the addition of vertices after the mouse click is released
+        bool singleClick = true;
+
+        window->setVerticalSyncEnabled(true); // synchronize refresh rate with frquency of monitor
+
+        while (window->isOpen())
         {
-            if(event.type == sf::Event::Resized)
+            sf::Event event;
+            while (window->pollEvent(event))
             {
-                sf::FloatRect visibleArea(0.f, 0.f, event.size.width, event.size.height);
-                window->setView(sf::View(visibleArea));
-                /* update the view to the new size of the window otherwise when the window is resized, everything is squeezed/stretched to the new size */
+                switch(event.type)
+                {
+                    case sf::Event::Closed:  
+                            window->close();     //closes the window
+                            break;
+
+                    case sf::Event::Resized:
+                        {
+                            sf::FloatRect visibleArea(0.f, 0.f, event.size.width, event.size.height);
+                            window->setView(sf::View(visibleArea));
+                            /* update the view to the new size of the window otherwise when the window is resized, everything is squeezed/stretched to the new size */
+                            break;
+                        }
+
+                    case sf::Event::MouseButtonPressed:
+                        if(singleClick && event.mouseButton.button == sf::Mouse::Left) 
+                        {
+                            singleClick = false;
+                            tempx = sf::Mouse::getPosition(*window).x;      //to get the position when left mouse button is clicked      
+                            tempy = sf::Mouse::getPosition(*window).y;      //and use that when it is released
+                        }
+                        break;
+
+                    case event.MouseButtonReleased:
+                        singleClick = true;
+                        g->addVertex(tempx, tempy);            //adds vertex only after mouse button is released
+                        break;
+
+                    case sf::Event::KeyPressed:
+                        if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
+                        {
+                            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
+                            {
+                                g->removeVertex();                        // to undo the vertex added
+                            }
+                        }
+
+                }
+
             }
 
-            if (event.type == sf::Event::Closed)
-                window->close();
-            
-            if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
-		    {
-			    g->addVertex(sf::Mouse::getPosition(*window).x, sf::Mouse::getPosition(*window).y);
-		    }
+            window->clear(sf::Color::White);
+            g->draw(window);
+
+            window->display();
         }
-
-        window->clear( sf::Color::White );
-        g->draw( window );
-
-
-        window->display();
     }
-
-    }
-
-   
-   
 
     return 0;
 }

@@ -23,4 +23,5 @@ private:
 public:
 	float m_weight;
 	// friend class heap;
+	friend class Graph;
 };
