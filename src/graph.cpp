@@ -31,12 +31,29 @@ void Graph::removeVertex()
 		vertices.pop_back();
 }
 
+Vertex* Graph::getVertex(sf::Vector2f pos)      //returns vertex, this is used when making edges
+{
+	for( Vertex* vertex : vertices)
+	{
+		if (vertex->m_sprite->getGlobalBounds().contains(pos))
+		{
+			return vertex;
+		}
+	}
+	return NULL;
+}
+
 void Graph::addEdge( Vertex* v, Vertex* u )
 {
 	
 	m_adj[v].push_front( u );
 	m_adj[u].push_front( v );
 
+	for( Edge* edge : edges)
+	{
+		if(edge->m_v1 == v && edge->m_v2 == u)    //check if edge already exists
+			return;
+	}
 	Edge* e = new Edge( u, v );
 	edges.push_back( e );
 	m_edgesno++;

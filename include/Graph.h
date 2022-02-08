@@ -10,10 +10,11 @@ class Graph
 {
 public:
 	Graph();
-	void addEdge(Vertex* v, Vertex* u);
+	void addEdge(Vertex*, Vertex*);
 	void addVertex(float, float); 
 	void draw( sf::RenderWindow* window );
 	void removeVertex();
+	Vertex* getVertex(sf::Vector2f);
 
 private:
 	static int m_verticesno;
