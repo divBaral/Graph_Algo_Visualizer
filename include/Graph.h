@@ -13,6 +13,7 @@ public:
 	void addEdge(Vertex* v, Vertex* u);
 	void addVertex(float, float); 
 	void draw( sf::RenderWindow* window );
+	void removeVertex();
 
 private:
 	static int m_verticesno;

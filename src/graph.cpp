@@ -25,6 +25,12 @@ void Graph::addVertex(float x, float y)
 
 }
 
+void Graph::removeVertex()
+{
+	if(!vertices.empty())
+		vertices.pop_back();
+}
+
 void Graph::addEdge( Vertex* v, Vertex* u )
 {
 	
