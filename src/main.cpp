@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Graph.h"
+#include "Dijkstra.h"
 
 constexpr int SCREEN_WIDTH = 800;
 constexpr int SCREEN_HEIGHT = 640;
@@ -10,6 +11,7 @@ int main()
 
     if (window)
     {
+        Dijkstra *d = new Dijkstra();
         Graph *g = new Graph();
         // g->addVertex();
 
@@ -73,12 +75,22 @@ int main()
                             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
                             {
                                 g->removeVertex();                        // to undo the vertex added
+                                break;
                             }
+
+                        }
+
+                        if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+                        {
+                            if(temp1)
+                                d->run(temp1, window, g);   //to run dijkstra, just for checking
+                                break;
                         }
 
                 }
 
             }
+
 
             window->clear(sf::Color::White);
             g->draw(window);
