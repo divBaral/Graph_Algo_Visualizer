@@ -4,13 +4,16 @@
 Vertex::Vertex( float x, float y )
 {
 
-
-	m_texture = new sf::Texture;
-	if ( !m_texture->loadFromFile("res/vertex1.png") )
+	m_texture = new sf::Texture[4];
+	if ( !m_texture[0].loadFromFile("res/vertex0.png") || !m_texture[1].loadFromFile("res/vertex1.png"))
+	{
 		std::cerr << "Texture not loaded ";
+	}
+
 	m_sprite = new sf::Sprite;
-	m_texture->setSmooth( true );
-	m_sprite->setTexture( m_texture[0] );
+	m_texture[0].setSmooth( true );
+	m_texture[1].setSmooth( true );
+	m_sprite->setTexture( m_texture[1] );
 	m_sprite->setOrigin( m_radius, m_radius );
 	
 	
@@ -36,9 +39,9 @@ void Vertex::update()
 {
 
 	if ( m_scanned )
-		m_sprite->setTexture( m_texture[2] );
+		m_sprite->setTexture( m_texture[0] );
 	if ( m_scanning )
-		m_sprite->setTexture( m_texture[1] );
+		m_sprite->setTexture( m_texture[0] );
 }
 
 sf::Vector2f Vertex::getPosition()

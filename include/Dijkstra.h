@@ -1,7 +1,8 @@
+#pragma once
 #include <iostream>
-#include "Vertex.h"
+// #include "Vertex.h"
 #include "Graph.h"
-#include "Edge.h"
+// #include "Edge.h"
 #include "priorityqueue.h"
 #include <map>
 #include <limits>
@@ -13,6 +14,7 @@ class Dijkstra
     std::map<Vertex*, float> dist;     //for checking if the distance is lesser than that of the distance in priority queue
     std::map<Vertex*, std::list<Edge*>> shortestLink;    //this is the final shortest routes of all vertices from the source
 public:
-    Dijkstra(Vertex*);
+    Dijkstra();
+    void run(Vertex*, sf::RenderWindow*, Graph*);
 
 };

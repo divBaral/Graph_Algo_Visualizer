@@ -7,7 +7,7 @@
 class Edge
 {
 public:
-	Edge( Vertex* v1,  Vertex* v2, int weight = -1  );
+	Edge( Vertex* v1,  Vertex* v2, int weight = 1  );
 	void draw( sf::RenderWindow* window );
 
 	~Edge();

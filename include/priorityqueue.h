@@ -1,4 +1,5 @@
 //using binary heap, a minimum heap
+#pragma once
 #include <iostream>
 #include <vector>
 #include "Edge.h"

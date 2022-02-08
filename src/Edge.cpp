@@ -41,7 +41,7 @@ Edge::Edge(  Vertex* v1,  Vertex* v2, int weight )
 				angle += 180;
 		}
 	}
-	std::cerr << x1 << ","<<y1;
+	// std::cerr << x1 << ","<<y1;
 
 	m_line->setRotation( angle );
 

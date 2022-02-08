@@ -33,22 +33,22 @@ int heap::parentnode(int index)
 
 int heap::leftchild(int index)
 {
-    int leftchild;
+    int left;
     if (index == 0)
-        leftchild = 1;
+        left = 1;
     else
-        leftchild = index * 2;
-    return (leftchild <= lastindex) ? leftchild : -1;
+        left = index * 2;
+    return (left <= lastindex) ? left : -1;
 }
 
 int heap::rightchild(int index)
 {
-    int rightchild;
+    int right;
     if (index == 0)
-        rightchild = 2;
+        right = 2;
     else
-        rightchild = index * 2 + 1;
-    return (rightchild <= lastindex) ? rightchild : -1;
+        right = index * 2 + 1;
+    return (right <= lastindex) ? right : -1;
 }
 
 void heap::shiftup()
@@ -62,9 +62,9 @@ void heap::shiftup()
         {
             swap(parentindex, minindex);
             minindex = parentindex;
-            continue;
         }
-        break;
+        else
+            break;
     }
 }
 
@@ -75,7 +75,21 @@ void heap::shiftdown()
     {
         int left = leftchild(minindex);
         int right = rightchild(minindex);
-        int child = getDist(elements[left].second) <= getDist(elements[right].second) ? left : right;
+        int child;
+        if(left != -1 && right != -1)
+        {
+            child = getDist(elements[left].second) <= getDist(elements[right].second) ? left : right;
+        }
+        else if(left == -1 && right != -1)
+        {
+            child = right;
+        }
+        else if(left != -1 && right == -1)
+        {
+            child = left;
+        }
+        else return;
+
         if (child <= lastindex && getDist(elements[child].second) < getDist(elements[minindex].second))
         {
             swap(child, minindex);
@@ -102,6 +116,7 @@ std::pair<Vertex*, std::list<Edge*>>  priorityqueue::dequeue()
 {
     std::pair<Vertex*, std::list<Edge*>> popped = h->elements[0];
     h->elements[0] = h->elements[h->lastindex];
+    h->elements.pop_back();
     h->lastindex--;
     h->shiftdown();
     return popped;
