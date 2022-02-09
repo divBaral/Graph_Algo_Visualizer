@@ -52,9 +52,9 @@ int main()
                         break;
 
                     case event.MouseButtonReleased:
+                        singleClick = true;
                         if(temp1)
                         {
-                            singleClick = true;
                             temp2 = g->getVertex((sf::Vector2f)sf::Mouse::getPosition(*window));
                             if(temp2)
                             {
@@ -62,9 +62,9 @@ int main()
                                 temp1 = temp2 = NULL;
                                 break;
                             }
+                            temp1 = NULL;
                         }
                         else{
-                            singleClick = true;
                             g->addVertex(tempx, tempy);            //adds vertex only after mouse button is released
                             break;
                         }

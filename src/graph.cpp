@@ -29,8 +29,10 @@ void Graph::addVertex(float x, float y)
 void Graph::removeVertex()		//remove edge with ctrl+z
 {
 	if(!vertices.empty())
+	{
 		removeEdge(vertices.back());
 		vertices.pop_back();
+	}
 }
 
 void Graph::removeEdge(Vertex* vertex)       //remove edge with ctrl+z

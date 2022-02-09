@@ -15,21 +15,20 @@ void Dijkstra::run(Vertex *start, sf::RenderWindow* window, Graph* g)
     while (!queue.empty())
     {
         std::pair<Vertex*, std::list<Edge*>> popped = queue.dequeue();
-        if(relaxed[popped.first])   //if edge is relaxed, we don't need to check it
-            continue;  
-
         start = popped.first;                
+        std::cout<<dist[start]<<" Finalized"<<std::endl;
         shortestLink[start] = popped.second;
-        relaxed[popped.first] = true;            //relaxing the edges
-        start->m_scanning = true;
+        visited[popped.first] = true;            //relaxing the edges
+        start->m_scanned = true;
+        start->m_scanning = false;
         window->clear(sf::Color::White);
         g->draw(window);
         window->display();
-        sleep(1);
+        sleep(2);
 
         for( Vertex* neighbour : Graph::m_adj[popped.first])      //we look for the neighbours of the vertex
         {
-            if(!relaxed[neighbour])
+            if(!visited[neighbour])
             {
                 std::list<Edge*> temp;  
                 temp = popped.second;    //pushes the edges that correspond to the vertex from source, just 
@@ -40,8 +39,20 @@ void Dijkstra::run(Vertex *start, sf::RenderWindow* window, Graph* g)
                     temp.push_back(Graph::m_edgeList[{neighbour, start}]);     //just pushing the edge start -> neighbour
                     queue.enqueue({neighbour, temp});                    //enqueuing into the heap tree
                     dist[neighbour] = dis;
+                    std::cout<<dist[neighbour]<<std::endl;
+                    neighbour->m_scanning = true;
+                    window->clear(sf::Color::White);
+                    g->draw(window);
+                    window->display();
+                    sleep(2);
                 }
             }
         }
+    }
+
+     for(Vertex* vertex : Graph::vertices)  
+    {
+        std::cout<<"----------------"<<std::endl;
+        std::cout<<dist[vertex]<<std::endl;       //initializing distances of all vertices from source as infinite
     }
 }
