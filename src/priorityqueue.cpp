@@ -3,7 +3,7 @@
 
 heap::heap()
 {
-    size = 1;
+    size = 10;
     lastindex = -1;
     elements = new std::pair<Vertex*, std::list<Edge*>>[size];
 }
@@ -18,6 +18,7 @@ void heap::swap(int index1, int index2)
 float heap::getDist(std::list<Edge*> routes)
 {
     if(routes.empty()) return 0;
+    
     float dis = 0;
     for( Edge* edge : routes)
     {
@@ -41,9 +42,9 @@ int heap::rightchild(int index)
     return ((2 * index) + 2);
 }
 
-void heap::shiftup(int i)
+void heap::shiftup( int i )
 {
-    while (getDist(elements[parentnode(i)].second) < getDist(elements[i].second)) 
+    while ( getDist(elements[parentnode(i)].second) < getDist(elements[i].second) ) 
     {
         // Swap parent and current node
         swap(parentnode(i), i);
@@ -57,20 +58,20 @@ void heap::shiftdown(int i = 0)
     
     int left = leftchild(i);
     
-    if (left <= lastindex && getDist(elements[left].second) < getDist(elements[maxIndex].second)) {
+    if ( left <= lastindex && getDist(elements[left].second) < getDist(elements[maxIndex].second) ) {
         maxIndex = left;
     }
     
     int right = rightchild(i);
     
-    if (right <= lastindex && getDist(elements[right].second) < getDist(elements[maxIndex].second)) {
+    if ( right <= lastindex && getDist(elements[right].second) < getDist(elements[maxIndex].second) ) {
         maxIndex = right;
     }
     
     // If i is not same as maxIndex
-    if (i != maxIndex){
-        swap(i, maxIndex);
-        shiftdown(maxIndex);
+    if ( i != maxIndex ){
+        swap( i, maxIndex );
+        shiftdown( maxIndex );
     }
 
 
@@ -92,16 +93,19 @@ void priorityqueue::enqueue(std::pair<Vertex*, std::list<Edge*>> e)
             h->elements[i] = temp[i];
         }
         h->size *= 2;
+
+        //need to delete temp
     }
-    h->lastindex++;
+    ++(h->lastindex);
     h->elements[h->lastindex] = e;
-    h->shiftup(h->lastindex);
+    h->shiftup( h->lastindex );
 }
 
 std::pair<Vertex*, std::list<Edge*>>  priorityqueue::dequeue()
 {
     std::pair<Vertex*, std::list<Edge*>> popped = h->elements[0];
     h->elements[0] = h->elements[h->lastindex];
+    //last element is still there needed to be cleared
     h->lastindex--;
     h->shiftdown();
     return popped;
@@ -109,7 +113,7 @@ std::pair<Vertex*, std::list<Edge*>>  priorityqueue::dequeue()
 
 bool priorityqueue::empty()
 {
-    if(h->lastindex == -1)
+    if( h->lastindex == -1 )
     {
         return 1;
     }

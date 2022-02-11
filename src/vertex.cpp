@@ -5,7 +5,7 @@ Vertex::Vertex( float x, float y )
 {
 
 	m_texture = new sf::Texture[4];
-	if ( !m_texture[0].loadFromFile("res/vertex0.png") || !m_texture[1].loadFromFile("res/vertex1.png") || !m_texture[2].loadFromFile("res/vertex2.png"))
+	if ( !m_texture[0].loadFromFile("res/vertex0.png") || !m_texture[1].loadFromFile("res/vertex1.png") || !m_texture[2].loadFromFile("res/vertex2.png") )
 	{
 		std::cerr << "Texture not loaded ";
 	}

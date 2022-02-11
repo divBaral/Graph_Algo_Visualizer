@@ -9,7 +9,7 @@
 class priorityqueue;
 class heap
 {
-    std::pair<Vertex*, std::list<Edge*>>* elements;    //for adding vertex and all the edges from source to the vertex
+    std::pair<Vertex*, std::list<Edge*>> *elements;    //for adding vertex and all the edges from source to the vertex
     int lastindex;
     int size;
 

@@ -7,3 +7,8 @@ build.sh
 .vscode
 CMakeLists.txt
 # build
+
+
+
+visualizer.exe
+Makefile

@@ -1,41 +1,54 @@
+/****
+ * 
+ * This header file contains class for representing graph structure.
+ * It has methods for manipulating the graph.
+ * 
+ ****/
+
 #pragma once
+
 #include <iostream>
-#include "Vertex.h"
-#include "Edge.h"
 #include <list>
-// #include <unordered_map>
 #include <map>
 #include <vector>
+#include <algorithm>
+
+#include "Vertex.h"
+#include "Edge.h"
+#include "Queue.h"
 
 class Graph 
 {
-public:
-	Graph();
-	void addEdge(Vertex*, Vertex*);
+public:	//methods
+	Graph( sf::RenderWindow* );
+	void addEdge( Vertex*, Vertex* );
 	void addVertex(float, float); 
-	void draw( sf::RenderWindow* window );
+	void draw();
 	void removeVertex();
-	void removeEdge(Vertex* vertex);
-	Vertex* getVertex(sf::Vector2f);
+	void removeEdge( Vertex* vertex );
+	Vertex* getVertex( sf::Vector2f );
+	void traverse( Vertex* );
+	void DFS( Vertex* );
+	void dftraverse( Vertex* );
+	void BFS( Vertex* );
+	~Graph();
 
-private:
-	static int m_verticesno;
-	static int m_edgesno;
+private: //data member
+	sf::RenderWindow *m_window;
 
-public:
-	// static std::map< Vertex* , std::list<Vertex*> > m_adj;
-	static std::map< Vertex* , std::list<Vertex*> > m_adj;
-	static std::map< std::pair<Vertex*, Vertex*> , Edge*> m_edgeList;
-	
+public:	//data members
+	std::map< Vertex* , std::list<Vertex*> > m_adj;
+	std::map< std::pair<Vertex*, Vertex*> , Edge*> m_edgeList;
 
+	int m_verticesno	=0;
+	int m_edgesno		=0;
 
 	//for graphics
-	static std::list<Vertex*> vertices;
-	static std::list<Edge*> edges;
-	// std::vector<Vertex*> vertices;
-
+	std::list<Vertex*> vertices;
+	std::list<Edge*> edges;
+	std::list<Edge*> edgesBackup;
 
 	//bfs,dfs, kruskal, prim, dijkstra 
-
-
+    std::map<Vertex*, int> visited;
+    Queue searchQ;
 };
