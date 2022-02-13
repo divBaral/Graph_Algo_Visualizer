@@ -64,9 +64,9 @@ void Dijkstra::run( Vertex *start, Graph *g )
         }
     }
 
-     for( Vertex* vertex : g->vertices )  
-    {
-        std::cout<<"----------------"<<std::endl;
-        std::cout<<dist[vertex]<<std::endl;       //initializing distances of all vertices from source as infinite
-    }
+    //  for( Vertex* vertex : g->vertices )  
+    // {
+    //     std::cout<<"----------------"<<std::endl;
+    //     std::cout<<dist[vertex]<<std::endl;       //initializing distances of all vertices from source as infinite
+    // }
 }

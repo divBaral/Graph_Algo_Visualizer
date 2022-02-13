@@ -27,7 +27,9 @@ private:
 
 public: //data members
 	sf::Color m_color;
-	float m_weight;
+	long m_weight;
+	sf::Font m_font;
+	sf::Text m_text;
 	// friend class heap;
 	friend class Graph;
 };

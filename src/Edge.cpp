@@ -3,9 +3,17 @@
 
 Edge::Edge(  Vertex* v1,  Vertex* v2, int weight )
 {
+	m_font.loadFromFile( "res/font.ttf" );
+	m_text.setFont( m_font );
+	
 	m_v1		= v1;
 	m_v2		= v2;
 	m_weight	= weight;
+
+	m_text.setString( std::to_string(m_weight) );
+	//m_text.setCharacterSize(24); // in pixels, not points!
+	m_text.setFillColor(sf::Color::Black);
+	
 
 	//for graphics
 	m_color			= sf::Color::Red;
@@ -16,6 +24,8 @@ Edge::Edge(  Vertex* v1,  Vertex* v2, int weight )
 
 	float x2 = v2->getPosition().x;
 	float y2 = v2->getPosition().y;
+
+	m_text.setPosition( (x1+x2) /2, (y1+y2)/2 );
 
 	m_line = new sf::RectangleShape;
 	m_line->setPosition( x1 + OFFSET, y1 - OFFSET );
@@ -52,6 +62,7 @@ void Edge::draw( sf::RenderWindow* window )
 {
 	m_line->setFillColor( m_color );
 	window->draw( *m_line );
+	window->draw( m_text );
 
 }
 

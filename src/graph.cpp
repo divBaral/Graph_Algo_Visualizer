@@ -58,7 +58,7 @@ Vertex* Graph::getVertex( sf::Vector2f pos )      //returns vertex, this is used
 	return NULL;
 }
 
-void Graph::addEdge( Vertex* v, Vertex* u )
+void Graph::addEdge( Vertex* u, Vertex* v )
 {
 	
 	m_adj[v].push_back( u );
@@ -71,8 +71,8 @@ void Graph::addEdge( Vertex* v, Vertex* u )
 	}
 	Edge* e = new Edge( u, v );
 	edges.push_back( e );
-	m_edgeList[{v, u}] = e;
 	m_edgeList[{u, v}] = e;
+	m_edgeList[{v, u}] = e;
 	m_edgesno++;
 	
 }
@@ -87,13 +87,13 @@ void Graph::draw()
 	}
 }
 
-void Graph::traverse( Vertex *start )
-{
-	for( Edge* e: edges )
-		edgesBackup.push_back( e );	//if we want to revert to the original graph use this 
-	//BFS( start );
-	DFS( start );
-}
+// void Graph::traverse( Vertex *start, void(*DFS_BFS)(Vertex*) )
+// {
+// 	for( Edge* e: edges )
+// 		edgesBackup.push_back( e );	//if we want to revert to the original graph use this 
+	
+// 	DFS_BFS(start);
+// }
 
 void Graph::BFS( Vertex *start )
 {
@@ -102,7 +102,7 @@ void Graph::BFS( Vertex *start )
         visited[v]=0;   //initially not visited
     }
 
-	this->edges.clear();
+	//this->edges.clear();
 	for( Vertex *vertex: vertices )
 	{
 		if( !visited[start] )
@@ -126,10 +126,10 @@ void Graph::BFS( Vertex *start )
 						e->m_color = sf::Color::Blue;
 
 						//can we replace the edges?
-						// std::replace( edges.begin(), edges.end(), my_edgeList[{u,v}] , e );
-						// std::replace( edges.begin(), edges.end(), my_edgeList[{v,u}] , e );
+						std::replace( edges.begin(), edges.end(), m_edgeList[{u,v}] , e );
+						std::replace( edges.begin(), edges.end(), m_edgeList[{v,u}] , e );
 
-						edges.push_back( e );
+						//edges.push_back( e );
 				        m_window->clear(sf::Color::White);
         				draw();
         				m_window->display();
@@ -151,7 +151,7 @@ void Graph::DFS( Vertex *start )
     {
         visited[v]=0;   //initially not visited
     }
-	this->edges.clear();
+	//this->edges.clear();
 	for( Vertex *vertex:vertices )
 	{
 		if( !visited[start] )
@@ -176,10 +176,10 @@ void Graph::dftraverse( Vertex *v )
 			e->m_color = sf::Color::Blue;
 
 			//can we replace the edges?
-			// std::replace( edges.begin(), edges.end(), my_edgeList[{u,v}] , e );
-			// std::replace( edges.begin(), edges.end(), my_edgeList[{v,u}] , e );
+			std::replace( edges.begin(), edges.end(), m_edgeList[{u,v}] , e );
+			std::replace( edges.begin(), edges.end(), m_edgeList[{v,u}] , e );
 
-			edges.push_back( e );
+			//edges.push_back( e );
 			m_window->clear(sf::Color::White);
 			draw();
 			m_window->display();

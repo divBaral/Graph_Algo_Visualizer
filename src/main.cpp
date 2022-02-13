@@ -14,6 +14,9 @@ int main()
     sf::RenderWindow *window;
     window = new(std::nothrow) sf::RenderWindow( sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Graph Algorithm visualizer" );
 
+    // sf::ContextSettings settings;
+    // settings.antialiasingLevel = 8;   //for smooth edges of shapes, this depends upon graphics card
+
     if( window )
     {
         Dijkstra *d = new Dijkstra( window );
@@ -65,7 +68,7 @@ int main()
                         if( vertex1 )
                         {
                             vertex2 = g->getVertex( (sf::Vector2f)sf::Mouse::getPosition(*window) );
-                            if( vertex2 )
+                            if( vertex2 && vertex1 != vertex2 )
                             {
                                 g->addEdge( vertex1, vertex2 );
                                 vertex1 = vertex2 = NULL;
@@ -87,12 +90,20 @@ int main()
                             }
 
                         }
-                        if( sf::Keyboard::isKeyPressed(sf::Keyboard::R) )
+                        if( sf::Keyboard::isKeyPressed(sf::Keyboard::D) )
                         {
                             if( vertex1 )
-                            //  d->run( vertex1, g );   //to run dijkstra, just for checking
-                            g->traverse( vertex1 );
+                            d->run( vertex1, g );   //to run dijkstra, just for checking
+                            //g->DFS( vertex1 );
                         }
+                        if( sf::Keyboard::isKeyPressed(sf::Keyboard::B) )
+                        {
+                            if( vertex1 )
+                                g->BFS( vertex1 );
+                        }
+                        break;
+
+                    default:
                         break;
 
                 }
