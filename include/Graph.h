@@ -27,10 +27,12 @@ public:	//methods
 	void removeVertex();
 	void removeEdge( Vertex* vertex );
 	Vertex* getVertex( sf::Vector2f );
-	//void traverse( Vertex*, void(*)(Vertex*) );
+
 	void DFS( Vertex* );
 	void dftraverse( Vertex* );
 	void BFS( Vertex* );
+
+	void update();
 	~Graph();
 
 private: //data member

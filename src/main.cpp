@@ -7,8 +7,8 @@
 #include "Button.h"
 
 //screen dimensions
-constexpr int SCREEN_WIDTH = 800;
-constexpr int SCREEN_HEIGHT = 640;
+constexpr int SCREEN_WIDTH = 1920;
+constexpr int SCREEN_HEIGHT = 1080;
 
 namespace windowmgr //for managing window
 {
@@ -19,7 +19,7 @@ namespace windowmgr //for managing window
     //coordinates of mouse left-click; for creating new vertices
     float mouseX, mouseY;
     bool singleClick = true;
-    int mode;
+    int mode = -1;
 
     //vertices needed while drawing edges
     Vertex *vertexA = NULL;
@@ -30,25 +30,25 @@ namespace windowmgr //for managing window
     void createButtons();
     inline void renderButtons();
 
-    inline int getMode();
+    inline void getMode();
 
     inline void drawingMode();
-    inline void addEdge();
+
 };
 
 
 int main()
 {
 try{    
-    sf::RenderWindow *window = new sf::RenderWindow( sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Graph Algorithm visualizer" );
+    sf::ContextSettings settings;
+    settings.antialiasingLevel = 8;   //for smooth edges of shapes, this depends upon graphics card
+
+    sf::RenderWindow *window = new sf::RenderWindow( sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Graph Algorithm visualizer", sf::Style::Default, settings );
     Graph *graph = new Graph( window );
+    Dijkstra *D = new Dijkstra( window );
 
     windowmgr::window = window;
     windowmgr::graph = graph;
-
-
-    sf::ContextSettings settings;
-    settings.antialiasingLevel = 8;   //for smooth edges of shapes, this depends upon graphics card
 
 
     // synchronize refresh rate with frquency of monitor
@@ -88,14 +88,31 @@ try{
                         windowmgr::mouseX = sf::Mouse::getPosition( *window ).x;
                         windowmgr::mouseY = sf::Mouse::getPosition( *window ).y;
 
-                        windowmgr::mode = windowmgr::getMode();
+                        windowmgr::getMode();
 
                     }
-                    break;
-
-
-                case event.MouseButtonReleased:
-                    windowmgr::addEdge();
+                    switch ( windowmgr::mode )
+                    {
+                        case 0://run dijkstra
+                            D->run( windowmgr::vertexB, graph );
+                        break;
+                        case 1: //run bfs
+                            graph->BFS( windowmgr::vertexB );
+                        break;
+                        case 2: //run dfs
+                            graph->DFS( windowmgr::vertexB );
+                            break;
+                        case 3:
+                            windowmgr::drawingMode();
+                            break;
+                        case 4:
+                            windowmgr::mode = -1;
+                            delete graph;
+                            graph = new Graph( window );                            
+                            break;
+                        default:
+                            break;
+                    } 
                     break;
 
 
@@ -107,17 +124,6 @@ try{
                             windowmgr::graph->removeVertex();          // to undo the vertex added
                         }
                     }
-                    // if( sf::Keyboard::isKeyPressed(sf::Keyboard::D) )
-                    // {
-                    //     if( vertex1 )
-                    //     d->run( vertex1, graph );   //to run dijkstra, just for checking
-                    //     //g->DFS( vertex1 );
-                    // }
-                    // if( sf::Keyboard::isKeyPressed(sf::Keyboard::B) )
-                    // {
-                    //     if( vertex1 )
-                    //         graph->BFS( vertex1 );
-                    // }
                     break;
 
 
@@ -127,25 +133,6 @@ try{
             }
 
         }
-
-        switch ( windowmgr::mode )
-        {
-            case 0://run dijkstra
-                //graph->Dijkstra();
-            break;
-            case 1: //run bfs
-                //graph->BFS();
-            break;
-            case 2: //run dfs
-                //graph->DFS();
-                break;
-            case 3: //add vertex
-                windowmgr::drawingMode();
-                break;
-            default:
-                break;
-        } 
-
 
         window->clear( sf::Color::Cyan );
 
@@ -173,20 +160,23 @@ catch( std::bad_alloc& ba )
 
 void windowmgr::createButtons()
 { 
-    button* addVertex = new button();
-    button* runDijkstra = new button();
-    button* bfs = new button();
-    button* dfs = new button();
+    button *addVertex = new button();
+    button *runDijkstra = new button();
+    button *bfs = new button();
+    button *dfs = new button();
+    button *cancel = new button();
 
     addVertex->name = "Add Vertex";
     runDijkstra->name = "Dijkstra";
     bfs->name = "BFS";
     dfs->name = "DFS";
+    cancel->name = "Cancel";
 
     buttons.push_back(runDijkstra);
     buttons.push_back(bfs);
     buttons.push_back(dfs);
     buttons.push_back(addVertex);
+    buttons.push_back(cancel);
 
     sf::Vector2f size(120.f, 30.f);
     sf::Vector2f pos( SCREEN_WIDTH - size.x , 0 );
@@ -199,11 +189,11 @@ void windowmgr::createButtons()
     }
 
 	/*setting coordinates for generating button area*/
-	buttonArea.width = size.x;
-	buttonArea.height = 8*size.y;
+	buttonArea.width = SCREEN_WIDTH-200.f;
+	buttonArea.height = SCREEN_HEIGHT;
 	//top left corner coordinates of rectangular button
-	buttonArea.left = pos.x;
-	buttonArea.top = pos.y;
+	buttonArea.left = 0.f;
+	buttonArea.top = 0.f;
 }
 
 
@@ -218,57 +208,32 @@ inline void windowmgr::renderButtons()
 
 
 
-inline int windowmgr::getMode()
+inline void windowmgr::getMode()
 {
-    button *Button = NULL;
     for ( auto b : buttons ) 
     {
         //selecting button
         if ( b->buttonArea.contains( mouseX, mouseY ) )
         {
-            Button = b;
+            mode = button::m_modes[b];
             break;
         }
     }
-    
-    return button::m_modes[Button];
 }
 
 
 
 inline void windowmgr::drawingMode()
 {  
-    if( singleClick )
-    {
+        mouseX = sf::Mouse::getPosition( *window ).x;
+        mouseY = sf::Mouse::getPosition( *window ).y;
 
-        mouseX = sf::Mouse::getPosition( *window ).x;      //to get the position when left mouse button is clicked      
-        mouseY = sf::Mouse::getPosition( *window ).y;      //and use that when it is released
-        if( !buttonArea.contains( mouseX, mouseY ) )
-            graph->addVertex( mouseX, mouseY );
         vertexA = graph->getVertex( (sf::Vector2f)sf::Mouse::getPosition(*window) );
-
-        singleClick = false;
-
-    }
-}
-
-
-inline void windowmgr::addEdge()
-{
-    if( vertexA )
-    {
-        vertexB = graph->getVertex( (sf::Vector2f)sf::Mouse::getPosition(*window) );
-        if( vertexB && vertexA != vertexB )
-        {
+        if ( !vertexA && buttonArea.contains( mouseX, mouseY ) )
+            graph->addVertex( mouseX, mouseY );
+        
+        if ( vertexA && vertexB && vertexA != vertexB )
             graph->addEdge( vertexA, vertexB );
-            vertexA = vertexB = NULL;
-        }
+        vertexB = vertexA;
         vertexA = NULL;
-    }
-    else
-    {
-        graph->addVertex( mouseX, mouseY );     //adds vertex only after mouse button is released
-    }
-
-    singleClick = true;
 }

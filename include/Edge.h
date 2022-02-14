@@ -14,6 +14,7 @@ class Edge
 public: //methods
 	Edge( Vertex* v1,  Vertex* v2, int weight = 1  );
 	void draw( sf::RenderWindow* window );
+	void update();
 
 	~Edge();
 
@@ -27,6 +28,8 @@ private:
 
 public: //data members
 	sf::Color m_color;
+	bool m_scanning;
+	bool m_scanned;
 	long m_weight;
 	sf::Font m_font;
 	sf::Text m_text;

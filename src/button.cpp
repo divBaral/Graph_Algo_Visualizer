@@ -35,15 +35,16 @@ void button::draw(sf::RenderWindow* window)
 
 void button::update( sf::RenderWindow* window )
 {
-        int MouseX = sf::Mouse::getPosition(*window).x;
-        int MouseY = sf::Mouse::getPosition(*window).y;
+	int MouseX = sf::Mouse::getPosition(*window).x;
+	int MouseY = sf::Mouse::getPosition(*window).y;
 
-        if(buttonArea.contains(MouseX, MouseY))
-        {
-        	shape.setFillColor(sf::Color(217, 106, 149));
-        }
-        else
-        {
-        	shape.setFillColor(sf::Color(209, 188, 186));
-        }
+	if(buttonArea.contains(MouseX, MouseY))
+	{
+		shape.setFillColor(sf::Color(217, 106, 149));
+	}
+	else
+	{
+		shape.setFillColor(sf::Color(209, 188, 186));
+	}
+
 }

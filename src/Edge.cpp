@@ -56,6 +56,9 @@ Edge::Edge(  Vertex* v1,  Vertex* v2, int weight )
 
 	m_line->setRotation( angle );
 
+	m_scanning = false;
+	m_scanned = false;
+
 }
 
 void Edge::draw( sf::RenderWindow* window )
@@ -64,6 +67,14 @@ void Edge::draw( sf::RenderWindow* window )
 	window->draw( *m_line );
 	window->draw( m_text );
 
+}
+
+void Edge::update()
+{
+	if( m_scanned )
+		m_color = sf::Color::Black;
+	if( m_scanning )
+		m_color = sf::Color::Green;
 }
 
  Edge::~Edge()
@@ -75,3 +86,4 @@ void Edge::draw( sf::RenderWindow* window )
 	if ( m_line )
 		delete m_line;
 }
+

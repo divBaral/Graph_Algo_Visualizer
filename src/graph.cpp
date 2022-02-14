@@ -76,7 +76,7 @@ void Graph::addEdge( Vertex* u, Vertex* v )
 void Graph::draw()
 {
 	for ( Edge* e : edges )
-	e->draw( m_window );
+		e->draw( m_window );
 	for ( Vertex* v :vertices )
 	{
 		v->update();
@@ -85,12 +85,13 @@ void Graph::draw()
 }
 
 void Graph::BFS( Vertex *start )
-{
+{	
+	if( !start ) return;
     for( Vertex *v:vertices )
     {
         visited[v]=0;   //initially not visited
     }
-
+ 
 	//this->edges.clear();
 	for( Vertex *vertex: vertices )
 	{
@@ -111,18 +112,15 @@ void Graph::BFS( Vertex *start )
 						u->m_scanning = true;
 						visited[u] = 1;
 						searchQ.enqueue(u);
+						
+
 						Edge *e = new Edge(u,v);
 						e->m_color = sf::Color::Blue;
-
-						//can we replace the edges?
 						std::replace( edges.begin(), edges.end(), m_edgeList[{u,v}] , e );
 						std::replace( edges.begin(), edges.end(), m_edgeList[{v,u}] , e );
 
-						//edges.push_back( e );
-				        m_window->clear(sf::Color::White);
-        				draw();
-        				m_window->display();
-        				sleep(1);
+						update();
+
 					}
 					u->m_scanned = true;
 					u->m_scanning = false;
@@ -136,6 +134,7 @@ void Graph::BFS( Vertex *start )
 
 void Graph::DFS( Vertex *start )
 {
+	if( !start ) return;
     for( Vertex *v:vertices )
     {
         visited[v]=0;   //initially not visited
@@ -161,22 +160,26 @@ void Graph::dftraverse( Vertex *v )
 		{
 			u->m_scanning = true;
 			visited[u] = 1;
+
+			
 			Edge *e = new Edge(u,v);
 			e->m_color = sf::Color::Blue;
-
-			//can we replace the edges?
 			std::replace( edges.begin(), edges.end(), m_edgeList[{u,v}] , e );
 			std::replace( edges.begin(), edges.end(), m_edgeList[{v,u}] , e );
 
-			//edges.push_back( e );
-			m_window->clear(sf::Color::White);
-			draw();
-			m_window->display();
-			sleep(1);
+			update();
 
 			dftraverse( u );
 			u->m_scanned = true;
 			u->m_scanning = false;			
 		}
 	}
+}
+
+void Graph::update()
+{
+	m_window->clear(sf::Color::Cyan);
+	draw();
+	m_window->display();
+	sleep(1);
 }
