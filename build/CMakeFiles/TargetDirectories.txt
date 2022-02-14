@@ -1,3 +1,0 @@
-/media/rosh/Roshan=>Data/Academics/project/Graph_Algo_Visualizer/build/CMakeFiles/rebuild_cache.dir
-/media/rosh/Roshan=>Data/Academics/project/Graph_Algo_Visualizer/build/CMakeFiles/edit_cache.dir
-/media/rosh/Roshan=>Data/Academics/project/Graph_Algo_Visualizer/build/CMakeFiles/Visualizer.dir
