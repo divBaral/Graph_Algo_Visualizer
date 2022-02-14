@@ -40,13 +40,9 @@ public:	//data members
 	std::map< Vertex* , std::list<Vertex*> > m_adj;
 	std::map< std::pair<Vertex*, Vertex*> , Edge*> m_edgeList;
 
-	int m_verticesno	=0;
-	int m_edgesno		=0;
-
 	//for graphics
 	std::list<Vertex*> vertices;
 	std::list<Edge*> edges;
-	std::list<Edge*> edgesBackup;
 
 	//bfs,dfs, kruskal, prim, dijkstra 
     std::map<Vertex*, int> visited;

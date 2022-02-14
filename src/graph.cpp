@@ -16,8 +16,6 @@ void Graph::addVertex( float x, float y )
 	Vertex *v = new Vertex( x, y );
  
 	vertices.push_back( v );
-
-	m_verticesno++;
 }
 
 void Graph::removeVertex()		//remove edge with ctrl+z
@@ -73,7 +71,6 @@ void Graph::addEdge( Vertex* u, Vertex* v )
 	edges.push_back( e );
 	m_edgeList[{u, v}] = e;
 	m_edgeList[{v, u}] = e;
-	m_edgesno++;
 	
 }
 void Graph::draw()
@@ -86,14 +83,6 @@ void Graph::draw()
 		v->draw( m_window );
 	}
 }
-
-// void Graph::traverse( Vertex *start, void(*DFS_BFS)(Vertex*) )
-// {
-// 	for( Edge* e: edges )
-// 		edgesBackup.push_back( e );	//if we want to revert to the original graph use this 
-	
-// 	DFS_BFS(start);
-// }
 
 void Graph::BFS( Vertex *start )
 {
