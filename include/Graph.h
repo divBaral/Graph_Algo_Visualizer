@@ -24,7 +24,7 @@ public:	//methods
 	void addEdge( Vertex*, Vertex* );
 	void addVertex(float, float); 
 	void draw();
-	void removeVertex();
+	void removeVertex( Vertex* vertex = NULL);
 	void removeEdge( Vertex* vertex );
 	Vertex* getVertex( sf::Vector2f );
 
@@ -33,6 +33,7 @@ public:	//methods
 	void BFS( Vertex* );
 
 	void update();
+	void restoreDefault();
 	~Graph();
 
 private: //data member

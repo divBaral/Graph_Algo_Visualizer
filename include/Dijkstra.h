@@ -21,6 +21,6 @@ class Dijkstra
 public:
     Dijkstra( sf::RenderWindow* );
     ~Dijkstra();
-    void run(Vertex*, Graph*);
+    void run( Graph*, Vertex* );
 
 };

@@ -10,12 +10,15 @@ Dijkstra::~Dijkstra()
     this->m_window = NULL; //m_window is actually reference to the actual sfml window
 }
 
-void Dijkstra::run( Vertex *start, Graph *graph )
+void Dijkstra::run( Graph *graph, Vertex *start = NULL )
 {
+    if( graph->vertices.empty() || start ==  NULL ) return;
+
     priorityqueue queue;
     for( Vertex *vertex : graph->vertices )  
     {
-        dist[vertex] = inf;       //initializing distances of all vertices from source as infinite
+        dist[ vertex ] = inf;       //initializing distances of all vertices from source as infinite
+        visited[ vertex ] = false;
     }
 
     dist[start] = 0;             //distance of source is 0
@@ -23,7 +26,8 @@ void Dijkstra::run( Vertex *start, Graph *graph )
     while ( !queue.empty() )
     {
         std::pair<Vertex*, std::list<Edge*>> popped = queue.dequeue();
-        start = popped.first;  
+        start = popped.first; 
+        start->m_dist = queue.h->getDist(popped.second); 
 
         shortestLink[start] = popped.second;
         visited[popped.first] = true;            //relaxing the edges
@@ -46,6 +50,11 @@ void Dijkstra::run( Vertex *start, Graph *graph )
                     temp.push_back(graph->m_edgeList[{neighbour, start}]);     //just pushing the edge start -> neighbour
                     queue.enqueue({neighbour, temp});                    //enqueuing into the heap tree
                     dist[neighbour] = dis;
+
+                    neighbour->m_dist = dis;    //updating the label of neighbour vertex
+
+                    graph->m_edgeList[{ start, neighbour }]->m_scanning = true;    //changing color of edge 
+                    graph->m_edgeList[{ neighbour, start }]->m_scanning = true;
                     
                     neighbour->m_scanning = true;
 

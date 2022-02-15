@@ -3,14 +3,13 @@
 
 Edge::Edge(  Vertex* v1,  Vertex* v2, int weight )
 {
-	m_font.loadFromFile( "res/font.ttf" );
+	m_font.loadFromFile( "../res/font.ttf" );
 	m_text.setFont( m_font );
 	
 	m_v1		= v1;
 	m_v2		= v2;
 	m_weight	= weight;
 
-	m_text.setString( std::to_string(m_weight) );
 	//m_text.setCharacterSize(24); // in pixels, not points!
 	m_text.setFillColor(sf::Color::Black);
 	
@@ -32,6 +31,8 @@ Edge::Edge(  Vertex* v1,  Vertex* v2, int weight )
 	m_linesize.x = sqrt( pow(x2-x1, 2) + pow(y2-y1, 2) );
 	m_linesize.y = 2;
 	m_line->setSize( m_linesize );
+	m_weight = m_linesize.x;
+	m_text.setString( std::to_string(m_weight) );
 
 	double angle;
 	if ( fabs(x2 - x1) < 0.005 ) {
@@ -73,8 +74,15 @@ void Edge::update()
 {
 	if( m_scanned )
 		m_color = sf::Color::Black;
-	if( m_scanning )
-		m_color = sf::Color::Green;
+	else if( m_scanning )
+		m_color = sf::Color::Blue;
+	else
+		m_color = sf::Color::Red;	//default
+}
+
+void Edge::restoreDefault()   //restore default the edges for running algorithms again
+{
+	m_scanned = m_scanning = false;
 }
 
  Edge::~Edge()

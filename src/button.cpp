@@ -17,7 +17,7 @@ void button::createButton(sf::Vector2f size, sf::Vector2f pos)
 	shape.setSize(size);
 	shape.setPosition(pos);
 	
-	if ( !m_font.loadFromFile( "res/font.ttf" ) )
+	if ( !m_font.loadFromFile( "../res/font.ttf" ) )
 		std::cerr << "Font not loaded\n";
 	
 	m_text.setFont( m_font );

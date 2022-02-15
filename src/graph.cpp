@@ -18,12 +18,23 @@ void Graph::addVertex( float x, float y )
 	vertices.push_back( v );
 }
 
-void Graph::removeVertex()		//remove edge with ctrl+z
+void Graph::removeVertex( Vertex* v )		//remove vertex v or remove the vertex at the top of vertices vector
 {
-	if( !vertices.empty() )
+	if( !vertices.empty() )  
 	{
-		removeEdge( vertices.back() );
-		vertices.pop_back();
+		if( v == NULL)  //if ctrl + Z
+		{
+			Vertex* temp = vertices.back();
+			removeEdge( vertices.back() );
+			vertices.pop_back();
+			// delete temp; 
+		}
+
+		else  	 //if in delete mode, and a vertex is passed as parameter
+		{      
+			vertices.remove( v );
+			removeEdge( v );
+		}
 	}
 }
 
@@ -31,14 +42,17 @@ void Graph::removeEdge( Vertex* vertex )       //remove edge with ctrl+z
 {
 	for( Vertex *v : m_adj[vertex] )
 	{
-		m_edgeList.erase({vertex, v});
-		m_edgeList.erase({v, vertex});
-		for( std::list<Edge*>::iterator it = edges.begin(); it != edges.end(); it++ )
+		if( m_edgeList[{v, vertex}] || m_edgeList[{vertex, v}])
 		{
-			if( (vertex == (*it)->m_v1 && v == (*it)->m_v2) || (vertex == (*it)->m_v2 && v == (*it)->m_v1) )
+			m_edgeList.erase({vertex, v});
+			m_edgeList.erase({v, vertex});
+			for( std::list<Edge*>::iterator it = edges.begin(); it != edges.end(); it++ )
 			{
-				edges.erase(it);
-				break;
+				if( (vertex == (*it)->m_v1 && v == (*it)->m_v2) || (vertex == (*it)->m_v2 && v == (*it)->m_v1) )
+				{
+					edges.erase(it);
+					break;
+				}
 			}
 		}
 	}
@@ -76,7 +90,10 @@ void Graph::addEdge( Vertex* u, Vertex* v )
 void Graph::draw()
 {
 	for ( Edge* e : edges )
+	{
+		e->update();
 		e->draw( m_window );
+	}
 	for ( Vertex* v :vertices )
 	{
 		v->update();
@@ -114,10 +131,12 @@ void Graph::BFS( Vertex *start )
 						searchQ.enqueue(u);
 						
 
-						Edge *e = new Edge(u,v);
-						e->m_color = sf::Color::Blue;
-						std::replace( edges.begin(), edges.end(), m_edgeList[{u,v}] , e );
-						std::replace( edges.begin(), edges.end(), m_edgeList[{v,u}] , e );
+						// Edge *e = new Edge(u,v);
+						// e->m_color = sf::Color::Blue;
+						// std::replace( edges.begin(), edges.end(), m_edgeList[{u,v}] , e );
+						// std::replace( edges.begin(), edges.end(), m_edgeList[{v,u}] , e );
+						m_edgeList[{ u, v }]->m_scanning = true;    //changing color of edge 
+            			m_edgeList[{ v, u }]->m_scanning = true;
 
 						update();
 
@@ -151,6 +170,7 @@ void Graph::DFS( Vertex *start )
 		start = vertex;
 	}
 }
+
 void Graph::dftraverse( Vertex *v )
 {
 	visited[v]++;
@@ -162,10 +182,12 @@ void Graph::dftraverse( Vertex *v )
 			visited[u] = 1;
 
 			
-			Edge *e = new Edge(u,v);
-			e->m_color = sf::Color::Blue;
-			std::replace( edges.begin(), edges.end(), m_edgeList[{u,v}] , e );
-			std::replace( edges.begin(), edges.end(), m_edgeList[{v,u}] , e );
+			// Edge *e = new Edge(u,v);
+			// e->m_color = sf::Color::Blue;
+			// std::replace( edges.begin(), edges.end(), m_edgeList[{u,v}] , e );
+			// std::replace( edges.begin(), edges.end(), m_edgeList[{v,u}] , e );
+			m_edgeList[{ u, v }]->m_scanning = true;    //changing color of edge 
+            m_edgeList[{ v, u }]->m_scanning = true;
 
 			update();
 
@@ -182,4 +204,22 @@ void Graph::update()
 	draw();
 	m_window->display();
 	sleep(1);
+}
+
+void Graph::restoreDefault()  //restore default everything about vertex and edges to run algorithms again
+{
+	m_window->clear(sf::Color::Cyan);
+
+	for ( Edge* e : edges )
+	{
+		e->restoreDefault();
+		e->draw( m_window );
+	}
+	for ( Vertex* v :vertices )
+	{
+		v->restoreDefault();
+		v->draw( m_window );
+	}
+
+	m_window->display();
 }

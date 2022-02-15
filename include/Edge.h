@@ -15,12 +15,13 @@ public: //methods
 	Edge( Vertex* v1,  Vertex* v2, int weight = 1  );
 	void draw( sf::RenderWindow* window );
 	void update();
+	void restoreDefault();
+	Vertex* m_v1, *m_v2;
 
 	~Edge();
 
 
 private:
-	Vertex* m_v1, *m_v2;
 
 	//members required for graphics
 	sf::RectangleShape* m_line;
