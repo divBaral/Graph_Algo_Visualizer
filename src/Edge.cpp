@@ -10,11 +10,11 @@ Edge::Edge(  Vertex* v1,  Vertex* v2, int weight )
 	m_weight	= weight;
 
 	m_text.setCharacterSize(20); // in pixels, not points!
-	m_text.setFillColor(sf::Color::Blue);
+	m_text.setFillColor(sf::Color::White);
 	
 
 	//for graphics
-	m_color			= sf::Color::Red;
+	m_color			= sf::Color::White;
 	float OFFSET	= 0;
 
 	float x1 = v1->getPosition().x;
@@ -76,9 +76,9 @@ void Edge::update()
 	if( m_scanned )
 		m_color = sf::Color::Black;
 	else if( m_scanning )
-		m_color = sf::Color::Blue;
+		m_color = sf::Color::Green;
 	else
-		m_color = sf::Color::Red;	//default
+		m_color = sf::Color::White;	//default
 }
 
 void Edge::restoreDefault()   //restore default the edges for running algorithms again

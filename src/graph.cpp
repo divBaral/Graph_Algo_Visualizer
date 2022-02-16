@@ -198,7 +198,8 @@ void Graph::dftraverse( Vertex *v )
 
 void Graph::update()
 {
-	m_window->clear(sf::Color::Cyan);
+	m_window->clear( sf::Color::Black );
+	//m_window->clear(sf::Color::Cyan);
 	draw();
 	m_window->display();
 	sleep(1);
@@ -206,7 +207,8 @@ void Graph::update()
 
 void Graph::restoreDefault()  //restore default everything about vertex and edges to run algorithms again
 {
-	m_window->clear(sf::Color::Cyan);
+	m_window->clear( sf::Color::Black );
+	//m_window->clear(sf::Color::Cyan);
 
 	for ( Edge* e : edges )
 	{

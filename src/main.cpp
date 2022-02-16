@@ -26,6 +26,8 @@ enum modes
 
 namespace windowmgr // for managing window
 {
+    sf::Texture *m_texture = NULL;
+    sf::Sprite *m_sprite = NULL;
     sf::RenderWindow *window = NULL;
     Graph *graph = NULL;
 
@@ -196,7 +198,8 @@ int main()
                 }
             }
 
-            window->clear(sf::Color::Cyan);
+            window->clear( sf::Color(33, 31, 32) );
+            window->draw( *windowmgr::m_sprite );
 
             graph->draw();
             windowmgr::renderButtons();
@@ -216,6 +219,19 @@ int main()
 
 void windowmgr::createButtons()
 {
+    m_texture = new sf::Texture;
+    if ( !m_texture->loadFromFile("res/background1.jpg") )
+    {
+        std::cerr << "Texture not loaded ";
+    }
+    m_sprite = new sf::Sprite;
+    m_sprite->setTexture( *m_texture );
+    m_sprite->setPosition( sf::Vector2f(SCREEN_WIDTH-250, 0) );
+    sf::IntRect rect = m_sprite->getTextureRect();
+    float X = 250.f/rect.width;
+    float Y = static_cast<float> (SCREEN_HEIGHT)/rect.height;
+    m_sprite->setScale(X, Y);
+
     button *drawGraph = new button();
     button *runDijkstra = new button();
     button *kruskal = new button();
@@ -244,7 +260,7 @@ void windowmgr::createButtons()
     buttons.push_back(exit);
 
     sf::Vector2f size(120.f, 30.f);
-    sf::Vector2f pos(SCREEN_WIDTH - size.x, 0);
+    sf::Vector2f pos(SCREEN_WIDTH-size.x-65.f, 200.f );
     int i = 0;
     for (button *b : buttons)
     {
@@ -254,7 +270,7 @@ void windowmgr::createButtons()
     }
 
     /*setting coordinates for generating button area*/
-    buttonArea.width = SCREEN_WIDTH - 300.f;
+    buttonArea.width = SCREEN_WIDTH - 270.f;
     buttonArea.height = SCREEN_HEIGHT;
     // top left corner coordinates of rectangular button
     buttonArea.left = 0.f;
