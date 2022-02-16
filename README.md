@@ -1,5 +1,5 @@
 ## What is this project?
-This is school project on Data Structures and Algorithms. We have implemented following alogrithms of undirected graph:
+This is school project on Data Structures and Algorithms. We have implemented following algorithms of undirected graph:
 1) DFS 
 2) BFS
 3) Dijkstra 
