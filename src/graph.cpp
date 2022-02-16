@@ -70,14 +70,14 @@ Vertex* Graph::getVertex( sf::Vector2f pos )      //returns vertex, this is used
 void Graph::addEdge( Vertex* u, Vertex* v )
 {
 	
-	m_adj[v].push_back( u );
-	m_adj[u].push_back( v );
-
 	for( Edge* edge : edges )
 	{
 		if( edge->m_v1 == v && edge->m_v2 == u )    //check if edge already exists
 			return;
 	}
+	m_adj[v].push_back( u );
+	m_adj[u].push_back( v );
+
 	Edge* e = new Edge( u, v );
 	edges.push_back( e );
 	m_edgeList[{u, v}] = e;
@@ -101,14 +101,17 @@ void Graph::draw()
 void Graph::BFS( Vertex *start )
 {	
 	if( !start ) return;
-    for( Vertex *v:vertices )
+    for( Vertex *v : vertices )
     {
         visited[v]=0;   //initially not visited
     }
- 
-	//this->edges.clear();
+
+	bool sameVertex = false;  //checks if vertex used in the statement below is equal to start
 	for( Vertex *vertex: vertices )
 	{
+		if( sameVertex == true) start = vertex;  
+		if( vertex == start) sameVertex = true;
+
 		if( !visited[start] )
 		{
 			visited[start] = 1;
@@ -126,7 +129,6 @@ void Graph::BFS( Vertex *start )
 						u->m_scanning = true;
 						visited[u] = 1;
 						searchQ.enqueue(u);
-						
 
 						// Edge *e = new Edge(u,v);
 						// e->m_color = sf::Color::Blue;
@@ -136,7 +138,6 @@ void Graph::BFS( Vertex *start )
             			m_edgeList[{ v, u }]->m_scanning = true;
 
 						update();
-
 					}
 					u->m_scanned = true;
 					u->m_scanning = false;

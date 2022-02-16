@@ -2,7 +2,7 @@
 
 Edge::Edge(  Vertex* v1,  Vertex* v2, int weight )
 {
-	m_font.loadFromFile( "../res/font.ttf" );
+	m_font.loadFromFile( "res/font.ttf" );
 	m_text.setFont( m_font );
 	
 	m_v1		= v1;

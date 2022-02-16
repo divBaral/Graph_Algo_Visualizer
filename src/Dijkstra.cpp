@@ -73,7 +73,8 @@ void Dijkstra::run( Graph *graph, Vertex *start = NULL )
     //this portion of code is for showing the shortest route from the source to all the vertices
     graph->restoreDefault();
     sleep(2);
-    for( Vertex* V : graph->vertices)
+
+    for( Vertex* V : graph->vertices )
     {
         if( V != m_start )     //we don't need to show the shortest route for source
         {
@@ -92,7 +93,12 @@ void Dijkstra::run( Graph *graph, Vertex *start = NULL )
                 graph->update();
             }
 
-            V->m_dist = queue.h->getDist(shortestLink[V]);  
+            float dis = queue.h->getDist(shortestLink[V]);  
+            if( dis != 0 )
+            {
+                V->m_dist = dis;  
+            }
+
             graph->update();
             sleep(2);
             graph->restoreDefault();

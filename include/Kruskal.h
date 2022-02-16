@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Graph.h"
-
+#include <stack>
 namespace KRUSKAL {
 bool sortComparer( Edge* a, Edge* b ) {
     return a->m_weight <= b->m_weight;
@@ -42,13 +42,52 @@ void union_edges( std::vector<subset> & subsets, int a, int b)
         subsets[broot].rank++;
     }
 }
+bool isConnected( Graph* g )
+{
+    //DFS 
+    Vertex *s = g->vertices.front();
+
+    std::stack<Vertex*> S;
+    S.push( s );
+    std::map < Vertex* , bool > visited;
+    visited[s] = true;
+
+    while (  ! S.empty() ) {
+        auto v = S.top();
+        S.pop();
+        for ( auto u : g->m_adj[v] )
+        {
+            if ( !visited[u] ) {
+                S.push( u );
+                visited[u] = true;
+
+            }
+        }
+
+
+
+    }
+    for ( auto it : g->vertices ) {
+        
+        if ( ! visited[it] )
+            return false;
+    }
+    return true;
+
+
+
+
+   /* //
+*/
+   
+}
 
 void  kruskalMST( Graph* g ) 
 {
     int i = 0;
     //maps vertices to integer index
 
-    if( !g || g->vertices.empty() || g->edges.empty() ) return; 
+    if( !g || g->vertices.empty() || g->edges.empty() || !isConnected( g )) return; 
 
     for ( auto it = g->vertices.begin(); it != g->vertices.end() ; ++it )
         g->visited[*it] = i++;
@@ -66,10 +105,21 @@ void  kruskalMST( Graph* g )
         subsets[i].rank = 0;
         subsets[i].parent = i;
     }
+
     int e = 0;
      i = 0;
+     //don't run if already tree
+	if ( g->edges.size() == g->vertices.size() - 1 ) {
+        for ( auto it : edges )
+        {
+            it->m_scanned = true;
+            it->m_v1->m_scanned = true;
+            it->m_v2->m_scanned = true;
+            g->update();
+        }
+        return ;
+    }
 
-	
     while ( e < ( g->vertices.size()  - 1) ) 
     {
         Edge* next_edge = edges[i++];

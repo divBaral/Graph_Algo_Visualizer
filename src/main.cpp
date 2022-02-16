@@ -52,6 +52,7 @@ namespace windowmgr // for managing window
     inline void getMode();
 
     inline void drawingMode();
+    inline void getStartingVertex();
 
 };
 
@@ -78,7 +79,7 @@ int main()
         while (window->isOpen())
         {
             sf::Event event;
-            while (window->pollEvent(event))
+            while (window->pollEvent( event ))
             {
                 switch (event.type)
                 {
@@ -89,7 +90,7 @@ int main()
                 case sf::Event::Resized:
                 {
                     sf::FloatRect visibleArea(0.f, 0.f, event.size.width, event.size.height);
-                    window->setView(sf::View(visibleArea));
+                    window->setView(sf::View( visibleArea ));
                     /* update the view to the new size of the window otherwise when the window is resized,
                     everything is squeezed/stretched to the new size */
                     break;
@@ -98,62 +99,68 @@ int main()
                 case sf::Event::MouseButtonPressed:
                     if (event.mouseButton.button == sf::Mouse::Left)
                     {
-                        windowmgr::mouseX = sf::Mouse::getPosition(*window).x;
-                        windowmgr::mouseY = sf::Mouse::getPosition(*window).y;
+                        windowmgr::mouseX = sf::Mouse::getPosition( *window ).x;
+                        windowmgr::mouseY = sf::Mouse::getPosition( *window ).y;
                         windowmgr::getMode();
 
                         switch (windowmgr::mode)
                         {
 
                         case modes::dijkstraMode: // run dijkstra
-                            if (windowmgr::cursor.loadFromSystem(sf::Cursor::Arrow))
-                                window->setMouseCursor(windowmgr::cursor); // change cursor to arrow
+                            if (windowmgr::cursor.loadFromSystem( sf::Cursor::Arrow ))
+                                window->setMouseCursor( windowmgr::cursor ); // change cursor to arrow
                             graph->restoreDefault(); // to run dijkstra again, restoring the colors of vertices & edges
+                            windowmgr::getStartingVertex();
                             D->run(graph, windowmgr::startVertex);
                             break;
 
                         case modes::bfsMode: // run bfs
-                            if (windowmgr::cursor.loadFromSystem(sf::Cursor::Arrow))
-                                window->setMouseCursor(windowmgr::cursor);
+                            if (windowmgr::cursor.loadFromSystem( sf::Cursor::Arrow ))
+                                window->setMouseCursor( windowmgr::cursor );
+                            windowmgr::getStartingVertex();
                             graph->restoreDefault(); // to run bfs again, restoring the colors of vertices & edges
                             graph->BFS(windowmgr::startVertex);
                             break;
 
                         case modes::dfsMode: // run dfs
-                            if (windowmgr::cursor.loadFromSystem(sf::Cursor::Arrow))
+                            if (windowmgr::cursor.loadFromSystem( sf::Cursor::Arrow ))
                                 window->setMouseCursor(windowmgr::cursor);
                             graph->restoreDefault(); // to run dfs again, restoring the colors of vertices & edges
+                            windowmgr::getStartingVertex();
                             graph->DFS(windowmgr::startVertex);
                             break;
 
                         case modes::kruskalMode: // exiting the whole program in exit mode
-                            if (windowmgr::cursor.loadFromSystem(sf::Cursor::Arrow))
-                                window->setMouseCursor(windowmgr::cursor);
+                            if (windowmgr::cursor.loadFromSystem( sf::Cursor::Arrow ))
+                                window->setMouseCursor( windowmgr::cursor );
                             graph->restoreDefault(); // to run kruskal again, restoring the colors of vertices & edges
                             KRUSKAL::kruskalMST(graph);
                             break;
 
                         case modes::drawingMode: // adding vertices and edges in drawingmode
-                            if (windowmgr::cursor.loadFromSystem(sf::Cursor::Cross))
+                            if (windowmgr::cursor.loadFromSystem( sf::Cursor::Cross ))
                                 window->setMouseCursor(windowmgr::cursor); // change cursor to Cross
                             windowmgr::drawingMode();
                             break;
 
                         case modes::deleteMode: // deleting vertices and edges in drawingmode function, it is deletemode though
-                            if (windowmgr::cursor.loadFromSystem(sf::Cursor::Hand))
-                                window->setMouseCursor(windowmgr::cursor); // change cursor to Hand
+                            if (windowmgr::cursor.loadFromSystem( sf::Cursor::Hand ))
+                                window->setMouseCursor( windowmgr::cursor ); // change cursor to Hand
                             windowmgr::drawingMode();
                             break;
 
                         case modes::clearMode: // clearing the graph in cancel mode
-                            if (windowmgr::cursor.loadFromSystem(sf::Cursor::NotAllowed))
-                                window->setMouseCursor(windowmgr::cursor); // change cursor to NotAllowed
+                            if (windowmgr::cursor.loadFromSystem( sf::Cursor::NotAllowed ))
+                                window->setMouseCursor( windowmgr::cursor ); // change cursor to NotAllowed
                             delete graph;
-                            graph = new Graph(window, windowmgr::mode);
+                            graph = new Graph( window, windowmgr::mode );
+                            delete D;
+                            D = new Dijkstra( window );
                             windowmgr::graph = graph;
                             break;
 
                         case modes::exitMode: // exiting the whole program in exit mode
+                            delete D;
                             delete graph;
                             delete window;
                             return 0;
@@ -310,4 +317,10 @@ inline void windowmgr::drawingMode()
             graph->removeVertex(vertexA); // removes the vertex if present, but only in delete mode
         }
     }
+}
+
+inline void windowmgr::getStartingVertex()
+{
+    startVertex = NULL;
+    startVertex = graph->getVertex((sf::Vector2f)sf::Mouse::getPosition(*window));
 }
