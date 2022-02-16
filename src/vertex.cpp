@@ -9,7 +9,7 @@ Vertex::Vertex( float x, float y )
 
 	m_text.setString( std::to_string( m_dist ) );
 	//m_text.setCharacterSize(24); // in pixels, not points!
-	m_text.setFillColor(sf::Color::Black);
+	m_text.setFillColor(sf::Color::White);
 	m_text.setCharacterSize(18);
 
 	m_texture = new sf::Texture[4];

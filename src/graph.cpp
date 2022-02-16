@@ -23,14 +23,25 @@ void Graph::removeVertex( Vertex* v )		//remove vertex v or remove the vertex at
 			Vertex* temp = vertices.back();
 			removeEdge( vertices.back() );
 			vertices.pop_back();
-			free(temp); 
+			m_adj.erase(temp);
+			visited.erase(temp);
+
+			for( Vertex* ver : vertices)
+			{
+				m_adj[ver].remove( temp );
+			}
 		}
 
 		else  	 //if in delete mode, and a vertex is passed as parameter
 		{     
 			vertices.remove( v );
 			removeEdge( v );
-			free(v);
+			m_adj.erase(v);
+			visited.erase(v);
+			for( Vertex* ver : vertices)
+			{
+				m_adj[ver].remove( v );
+			}
 		}
 	}
 }
