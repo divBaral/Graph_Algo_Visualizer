@@ -33,7 +33,7 @@ public:	//methods
 	void dftraverse( Vertex* );
 	void BFS( Vertex* );
 
-	void update();
+	void update( bool slp=true );
 	void restoreDefault();
 	~Graph();
 

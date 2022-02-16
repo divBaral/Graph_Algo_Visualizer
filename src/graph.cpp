@@ -130,10 +130,6 @@ void Graph::BFS( Vertex *start )
 						visited[u] = 1;
 						searchQ.enqueue(u);
 
-						// Edge *e = new Edge(u,v);
-						// e->m_color = sf::Color::Blue;
-						// std::replace( edges.begin(), edges.end(), m_edgeList[{u,v}] , e );
-						// std::replace( edges.begin(), edges.end(), m_edgeList[{v,u}] , e );
 						m_edgeList[{ u, v }]->m_scanning = true;    //changing color of edge 
             			m_edgeList[{ v, u }]->m_scanning = true;
 
@@ -145,7 +141,7 @@ void Graph::BFS( Vertex *start )
 			}
 		}
 
-		update();
+		update( false );
 		start = vertex;
 	}
 }
@@ -171,7 +167,7 @@ void Graph::DFS( Vertex *start )
 			dftraverse( start );
 		}
 		
-		update();
+		update( false );
 		start = vertex;
 	}
 }
@@ -186,11 +182,6 @@ void Graph::dftraverse( Vertex *v )
 			u->m_scanning = true;
 			visited[u] = 1;
 
-			
-			// Edge *e = new Edge(u,v);
-			// e->m_color = sf::Color::Blue;
-			// std::replace( edges.begin(), edges.end(), m_edgeList[{u,v}] , e );
-			// std::replace( edges.begin(), edges.end(), m_edgeList[{v,u}] , e );
 			m_edgeList[{ u, v }]->m_scanning = true;    //changing color of edge 
             m_edgeList[{ v, u }]->m_scanning = true;
 
@@ -203,14 +194,14 @@ void Graph::dftraverse( Vertex *v )
 	}
 }
 
-void Graph::update()
+void Graph::update( bool slp )
 {
 	// m_window->clear( sf::Color::Black );
 	m_window->clear( sf::Color(33, 31, 32) );
 	//m_window->clear(sf::Color::Cyan);
 	draw();
 	m_window->display();
-	sleep(1);
+	if( slp )sleep(2); 
 }
 
 void Graph::restoreDefault()  //restore default everything about vertex and edges to run algorithms again
