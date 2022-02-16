@@ -145,6 +145,7 @@ void Graph::BFS( Vertex *start )
 			}
 		}
 
+		update();
 		start = vertex;
 	}
 }
@@ -157,14 +158,20 @@ void Graph::DFS( Vertex *start )
         visited[v]=0;   //initially not visited
     }
 	//this->edges.clear();
-	for( Vertex *vertex:vertices )
+
+	bool sameVertex = false;
+	for( Vertex *vertex : vertices )
 	{
+		if( sameVertex == true) start = vertex;  
+		if( vertex == start) sameVertex = true;
+
 		if( !visited[start] )
 		{	
 			start->m_scanned = true;
 			dftraverse( start );
 		}
 		
+		update();
 		start = vertex;
 	}
 }
@@ -198,7 +205,8 @@ void Graph::dftraverse( Vertex *v )
 
 void Graph::update()
 {
-	m_window->clear( sf::Color::Black );
+	// m_window->clear( sf::Color::Black );
+	m_window->clear( sf::Color(33, 31, 32) );
 	//m_window->clear(sf::Color::Cyan);
 	draw();
 	m_window->display();
@@ -207,7 +215,8 @@ void Graph::update()
 
 void Graph::restoreDefault()  //restore default everything about vertex and edges to run algorithms again
 {
-	m_window->clear( sf::Color::Black );
+	// m_window->clear( sf::Color::Black );
+	m_window->clear( sf::Color(33, 31, 32) );
 	//m_window->clear(sf::Color::Cyan);
 
 	for ( Edge* e : edges )

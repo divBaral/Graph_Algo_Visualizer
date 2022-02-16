@@ -38,6 +38,11 @@ void Dijkstra::run( Graph *graph, Vertex *start = NULL )
         start->m_scanned = true;
         start->m_scanning = false;
 
+        for( Edge* e : popped.second )
+        {
+            e->m_scanned = true;
+        }
+
         graph->update();
 
         if( graph->m_adj[popped.first].empty()) continue;
@@ -79,7 +84,7 @@ void Dijkstra::run( Graph *graph, Vertex *start = NULL )
         if( V != m_start )     //we don't need to show the shortest route for source
         {
             m_start->m_scanned = true;
-            m_start->m_dist = 0;
+            m_start->m_dist = 0; 
             V->m_scanned = true;
             graph->update();
 

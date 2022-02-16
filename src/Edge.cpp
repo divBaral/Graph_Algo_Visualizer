@@ -63,6 +63,7 @@ Edge::Edge(  Vertex* v1,  Vertex* v2, int weight )
 
 void Edge::draw( sf::RenderWindow* window, int mode )
 {
+	m_line->setSize( m_linesize );
 	m_line->setFillColor( m_color );
 	window->draw( *m_line );
 	
@@ -74,17 +75,25 @@ void Edge::draw( sf::RenderWindow* window, int mode )
 void Edge::update()
 {
 	if( m_scanned )
-		m_color = sf::Color::Black;
+	{
+		m_linesize.y = 6;
+		m_color = sf::Color::Blue;
+	}
 	else if( m_scanning )
-		m_color = sf::Color::Green;
+	{
+		m_linesize.y = 5;
+		m_color = sf::Color(3, 252, 31);
+	}
 	else
-		m_color = sf::Color::White;	//default
+	{
+		m_linesize.y = 4;
+		m_color = sf::Color::Red;	//default
+	}
 }
 
 void Edge::restoreDefault()   //restore default the edges for running algorithms again
 {
 	m_scanned = m_scanning = false;
-	m_line->setSize( m_linesize );
 }
 
  Edge::~Edge()
