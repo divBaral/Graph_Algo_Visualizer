@@ -44,7 +44,7 @@ int heap::rightchild(int index)
 
 void heap::shiftup( int i )
 {
-    while ( getDist(elements[parentnode(i)].second) < getDist(elements[i].second) ) 
+    while ( getDist(elements[parentnode(i)].second) > getDist(elements[i].second) ) 
     {
         // Swap parent and current node
         swap(parentnode(i), i);

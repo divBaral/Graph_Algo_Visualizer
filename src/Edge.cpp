@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Edge.h"
 
 Edge::Edge(  Vertex* v1,  Vertex* v2, int weight )
@@ -10,8 +9,8 @@ Edge::Edge(  Vertex* v1,  Vertex* v2, int weight )
 	m_v2		= v2;
 	m_weight	= weight;
 
-	//m_text.setCharacterSize(24); // in pixels, not points!
-	m_text.setFillColor(sf::Color::Black);
+	m_text.setCharacterSize(20); // in pixels, not points!
+	m_text.setFillColor(sf::Color::Blue);
 	
 
 	//for graphics
@@ -62,11 +61,13 @@ Edge::Edge(  Vertex* v1,  Vertex* v2, int weight )
 
 }
 
-void Edge::draw( sf::RenderWindow* window )
+void Edge::draw( sf::RenderWindow* window, int mode )
 {
 	m_line->setFillColor( m_color );
 	window->draw( *m_line );
-	window->draw( m_text );
+	
+	if( mode != 1 && mode != 2 )   // bfsMode = 1 , dfsMode = 2
+		window->draw( m_text );
 
 }
 
@@ -83,6 +84,7 @@ void Edge::update()
 void Edge::restoreDefault()   //restore default the edges for running algorithms again
 {
 	m_scanned = m_scanning = false;
+	m_line->setSize( m_linesize );
 }
 
  Edge::~Edge()

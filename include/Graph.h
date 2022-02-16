@@ -11,6 +11,7 @@
 #include <list>
 #include <map>
 #include <vector>
+#include <unistd.h>
 #include <algorithm>
 
 #include "Vertex.h"
@@ -20,7 +21,7 @@
 class Graph 
 {
 public:	//methods
-	Graph( sf::RenderWindow* );
+	Graph( sf::RenderWindow*, int& );
 	void addEdge( Vertex*, Vertex* );
 	void addVertex(float, float); 
 	void draw();
@@ -38,16 +39,17 @@ public:	//methods
 
 private: //data member
 	sf::RenderWindow *m_window;
+	int& m_mode;
 
 public:	//data members
 	std::map< Vertex* , std::list<Vertex*> > m_adj;
 	std::map< std::pair<Vertex*, Vertex*> , Edge*> m_edgeList;
 
 	//for graphics
-	std::list<Vertex*> vertices;
-	std::list<Edge*> edges;
+	std::list< Vertex* > vertices;
+	std::list< Edge* > edges;
 
 	//bfs,dfs, kruskal, prim, dijkstra 
-    std::map<Vertex*, int> visited;
+    std::map< Vertex*, int > visited;
     Queue searchQ;
 };

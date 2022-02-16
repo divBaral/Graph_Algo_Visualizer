@@ -24,14 +24,20 @@ int find( std::vector<subset> & subsets, int i ) {
     return subsets[i].parent;
 }
 
-void union_edges( std::vector<subset> & subsets, int a, int b) {
+void union_edges( std::vector<subset> & subsets, int a, int b) 
+{
     int aroot = find(subsets, a);
     int broot = find(subsets, b);
+
     if ( subsets[aroot].rank < subsets[broot].rank ) {
         subsets[aroot].parent = broot;
-    } else if ( subsets[aroot].rank > subsets[broot].rank ) {
+    }
+    else if ( subsets[aroot].rank > subsets[broot].rank ) 
+    {
         subsets[broot].parent = aroot;
-    } else {
+    }
+    else 
+    {
         subsets[broot].parent = aroot;
         subsets[broot].rank++;
     }
@@ -41,6 +47,8 @@ void  kruskalMST( Graph* g )
 {
     int i = 0;
     //maps vertices to integer index
+
+    if( !g || g->vertices.empty() || g->edges.empty() ) return; 
 
     for ( auto it = g->vertices.begin(); it != g->vertices.end() ; ++it )
         g->visited[*it] = i++;
@@ -73,6 +81,7 @@ void  kruskalMST( Graph* g )
 
         int a = find( subsets, g->visited[next_edge->m_v1] );   //visited[next_edges->m_v1]
         int b = find( subsets, g->visited[next_edge->m_v2] );
+
         if ( a != b ) 
         {
 			//resultMST.push_back(next_edge);

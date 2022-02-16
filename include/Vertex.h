@@ -5,9 +5,11 @@
  ****/
 
 #pragma once
+
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <limits>
+#include "sstream"
 
 #define inf std::numeric_limits<float>::infinity()
 
@@ -15,7 +17,7 @@ class Vertex
 {
 public: //methods
 	Vertex( float x, float y );
-	void draw( sf::RenderWindow* window );
+	void draw( sf::RenderWindow*, int );
 	void update();
 	void restoreDefault();
 	sf::Vector2f getPosition();

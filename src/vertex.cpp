@@ -1,5 +1,4 @@
 #include "Vertex.h"
-#include "sstream"
 
 Vertex::Vertex( float x, float y )
 {
@@ -11,7 +10,7 @@ Vertex::Vertex( float x, float y )
 	m_text.setString( std::to_string( m_dist ) );
 	//m_text.setCharacterSize(24); // in pixels, not points!
 	m_text.setFillColor(sf::Color::Black);
-	m_text.setCharacterSize(20);
+	m_text.setCharacterSize(18);
 
 	m_texture = new sf::Texture[4];
 	if ( !m_texture[0].loadFromFile("../res/vertex0.png") || !m_texture[1].loadFromFile("../res/vertex1.png") || !m_texture[2].loadFromFile("../res/vertex2.png") )
@@ -39,11 +38,12 @@ Vertex::Vertex( float x, float y )
 
 }
 
-void Vertex::draw( sf::RenderWindow* window )
+void Vertex::draw( sf::RenderWindow* window, int mode )
 {
 	
 	window->draw( *m_sprite );
-	window->draw( m_text );
+	if( mode == 0 )    //dijkstraMode = 0
+		window->draw( m_text );
 
 }
 

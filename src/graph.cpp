@@ -1,11 +1,7 @@
 #include "Graph.h"
-#include <unistd.h>
-#include <algorithm>
 
-Graph::Graph( sf::RenderWindow* m_window )
-{
-	this->m_window = m_window;
-}
+Graph::Graph( sf::RenderWindow* window, int& mode ) :m_window( window ), m_mode( mode ) {}
+
 Graph::~Graph()
 {
 	this->m_window = NULL; //m_window is actually just a reference to the main sfml window
@@ -27,13 +23,14 @@ void Graph::removeVertex( Vertex* v )		//remove vertex v or remove the vertex at
 			Vertex* temp = vertices.back();
 			removeEdge( vertices.back() );
 			vertices.pop_back();
-			// delete temp; 
+			free(temp); 
 		}
 
 		else  	 //if in delete mode, and a vertex is passed as parameter
-		{      
+		{     
 			vertices.remove( v );
 			removeEdge( v );
+			free(v);
 		}
 	}
 }
@@ -92,12 +89,12 @@ void Graph::draw()
 	for ( Edge* e : edges )
 	{
 		e->update();
-		e->draw( m_window );
+		e->draw( m_window, m_mode );
 	}
 	for ( Vertex* v :vertices )
 	{
 		v->update();
-		v->draw( m_window );
+		v->draw( m_window, m_mode );
 	}
 }
 
@@ -213,12 +210,13 @@ void Graph::restoreDefault()  //restore default everything about vertex and edge
 	for ( Edge* e : edges )
 	{
 		e->restoreDefault();
-		e->draw( m_window );
+		e->draw( m_window, m_mode );
 	}
+
 	for ( Vertex* v :vertices )
 	{
 		v->restoreDefault();
-		v->draw( m_window );
+		v->draw( m_window, m_mode );
 	}
 
 	m_window->display();
