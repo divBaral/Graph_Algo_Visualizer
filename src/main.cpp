@@ -19,6 +19,7 @@ enum modes
     dfsMode,
     kruskalMode,
     drawingMode,
+    restoreMode,
     deleteMode,
     clearMode,
     exitMode
@@ -54,7 +55,7 @@ namespace windowmgr // for managing window
     inline void getMode();
 
     inline void drawingMode();
-    inline void getStartingVertex();
+    inline void getStartingVertex();    
 
 };
 
@@ -113,6 +114,7 @@ int main()
                                 window->setMouseCursor( windowmgr::cursor ); // change cursor to arrow
                             graph->restoreDefault(); // to run dijkstra again, restoring the colors of vertices & edges
                             windowmgr::getStartingVertex();
+                            // windowmgr::getDestinationVertex();
                             D->run(graph, windowmgr::startVertex);
                             break;
 
@@ -143,6 +145,13 @@ int main()
                             if (windowmgr::cursor.loadFromSystem( sf::Cursor::Cross ))
                                 window->setMouseCursor(windowmgr::cursor); // change cursor to Cross
                             windowmgr::drawingMode();
+                            break;
+
+                        case modes::restoreMode: // exiting the whole program in exit mode
+                            if (windowmgr::cursor.loadFromSystem( sf::Cursor::NotAllowed ))
+                                window->setMouseCursor( windowmgr::cursor );
+                            graph->restoreDefault(); // to run kruskal again, restoring the colors of vertices & edges
+                            D->m_start = NULL;
                             break;
 
                         case modes::deleteMode: // deleting vertices and edges in drawingmode function, it is deletemode though
@@ -240,21 +249,24 @@ void windowmgr::createButtons()
     button *clear = new button();
     button *del = new button();
     button *exit = new button();
+    button *restore = new button();
 
-    drawGraph->name = "Draw";
-    del->name = "Delete";
-    runDijkstra->name = "Dijkstra";
-    kruskal->name = "Kruskal";
-    bfs->name = "BFS";
-    dfs->name = "DFS";
-    clear->name = "Clear";
-    exit->name = "Exit";
+    drawGraph->name = "     Draw";
+    del->name = "     Delete";
+    runDijkstra->name = "   Dijkstra";
+    kruskal->name = "    Kruskal";
+    bfs->name = "      BFS";
+    dfs->name = "      DFS";
+    clear->name = "      Clear";
+    exit->name = "       Exit";
+    restore->name = "    Restore";
 
     buttons.push_back(runDijkstra);
     buttons.push_back(bfs);
     buttons.push_back(dfs);
     buttons.push_back(kruskal);
     buttons.push_back(drawGraph);
+    buttons.push_back(restore);
     buttons.push_back(del);
     buttons.push_back(clear);
     buttons.push_back(exit);
@@ -340,3 +352,9 @@ inline void windowmgr::getStartingVertex()
     startVertex = NULL;
     startVertex = graph->getVertex((sf::Vector2f)sf::Mouse::getPosition(*window));
 }
+
+// inline void windowmgr::getDestinationVertex()
+// {
+
+//     startVertex = graph->getVertex((sf::Vector2f)sf::Mouse::getPosition(*window));
+// }
