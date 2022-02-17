@@ -12,25 +12,33 @@ Dijkstra::~Dijkstra()
 
 void Dijkstra::run( Graph *graph, Vertex *start = NULL )
 {
-    if( graph->vertices.empty() || start ==  NULL ) return;     //if start is NULL. we return
+    if( graph->vertices.empty() ) return;     //if there are no vertices, we return
+    if( !start && !m_start) return;   //if the algorithm was restored, or not run before, and no start is given now 
 
-    if( m_start && m_start != start )   //if dijkstra is already run and not restored, then we assign
-    {                                   //start to destination 
+    if( m_start && start )   //if dijkstra is already run and not restored, then we assign
+    {                                   //start to destination if start is given
         m_destination = start;
     }
-    else
-        m_start = start;    //if m_start is NULL we assign it to start
+
+    else if( !start && m_start ) //if no start given but the algo was already run and not restored,
+    {                            //showing the previous starting vertex, so that users know the source to trace
+        m_start->m_scanned = true;
+        m_start->m_dist = 0;
+        graph->update();
+    }
+    else if( start )           //if the algorithm is run first time, or run after restoring
+        m_start = start;  
 
     priorityqueue queue;
 
-    if( !m_destination )       //if there is destination in cache, we trace shortest route only
+    if( !m_destination && m_start && start )       //if there is destination in cache, we trace shortest route only
     {
         for( Vertex *vertex : graph->vertices )  
         {
             dist[ vertex ] = inf;       //initializing distances of all vertices from source as infinite
             visited[ vertex ] = false;
         }
-
+        start = m_start;
         dist[start] = 0;             //distance of source is 0
         queue.enqueue({start, {}});
         while ( !queue.empty() )
@@ -86,9 +94,7 @@ void Dijkstra::run( Graph *graph, Vertex *start = NULL )
 
 
     //this portion of code is for showing the shortest route from the source to the destination
-    graph->restoreDefault();
- 
-    if( m_destination )
+    if( m_destination )  
     {
         m_start->m_scanned = true;
         m_start->m_dist = 0; 

@@ -212,7 +212,7 @@ void Graph::update( bool slp )
 	//m_window->clear(sf::Color::Cyan);
 	draw();
 	m_window->display();
-	if( slp )sleep(2); 
+	if( slp )sleep(1); 
 }
 
 void Graph::restoreDefault()  //restore default everything about vertex and edges to run algorithms again
