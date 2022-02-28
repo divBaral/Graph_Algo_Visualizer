@@ -16,6 +16,7 @@ class heap
 
 public:
     heap();
+    ~heap();
     void swap(int, int);   //swaps the elements 
     int parentnode(int);   //get the parent node
     int leftchild(int);     //get the left child node

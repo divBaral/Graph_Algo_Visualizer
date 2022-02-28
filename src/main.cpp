@@ -14,15 +14,15 @@ constexpr int SCREEN_HEIGHT = 1080;
 // for different modes
 enum modes
 {
-    dijkstraMode = 0,
-    bfsMode,
-    dfsMode,
-    kruskalMode,
-    drawingMode,
-    restoreMode,
-    deleteMode,
-    clearMode,
-    exitMode
+    DIJKSTRAMODE = 0,
+    BFSMODE,
+    DFSMODE,
+    KRUSKALMODE,
+    DRAWINGMODE,
+    RESTOREMODE,
+    DELETEMODE,
+    CLEARMODE,
+    EXITMODE
 };
 
 namespace windowmgr // for managing window
@@ -31,6 +31,7 @@ namespace windowmgr // for managing window
     sf::Sprite *m_sprite = NULL;
     sf::RenderWindow *window = NULL;
     Graph *graph = NULL;
+    bool RUNNING = true;
 
     sf::Rect<float> buttonArea;
     // coordinates of mouse left-click; for creating new vertices
@@ -54,7 +55,7 @@ namespace windowmgr // for managing window
 
     inline void getMode();
 
-    inline void drawingMode();
+    inline void DRAWINGMODE();
     inline void getStartingVertex();    
 
 };
@@ -79,7 +80,7 @@ int main()
         // creating buttons required for different modes like edit, del, run...etc
         windowmgr::createButtons();
 
-        while (window->isOpen())
+        while ( window->isOpen() && windowmgr::RUNNING )
         {
             sf::Event event;
             while (window->pollEvent( event ))
@@ -109,16 +110,15 @@ int main()
                         switch (windowmgr::mode)
                         {
 
-                        case modes::dijkstraMode: // run dijkstra
+                        case modes::DIJKSTRAMODE: // run dijkstra
                             if (windowmgr::cursor.loadFromSystem( sf::Cursor::Arrow ))
                                 window->setMouseCursor( windowmgr::cursor ); // change cursor to arrow
                             graph->restoreDefault(); // to run dijkstra again, restoring the colors of vertices & edges
                             windowmgr::getStartingVertex();
-                            // windowmgr::getDestinationVertex();
                             D->run(graph, windowmgr::startVertex);
                             break;
 
-                        case modes::bfsMode: // run bfs
+                        case modes::BFSMODE: // run bfs
                             if (windowmgr::cursor.loadFromSystem( sf::Cursor::Arrow ))
                                 window->setMouseCursor( windowmgr::cursor );
                             windowmgr::getStartingVertex();
@@ -126,7 +126,7 @@ int main()
                             graph->BFS(windowmgr::startVertex);
                             break;
 
-                        case modes::dfsMode: // run dfs
+                        case modes::DFSMODE: // run dfs
                             if (windowmgr::cursor.loadFromSystem( sf::Cursor::Arrow ))
                                 window->setMouseCursor(windowmgr::cursor);
                             graph->restoreDefault(); // to run dfs again, restoring the colors of vertices & edges
@@ -134,33 +134,33 @@ int main()
                             graph->DFS(windowmgr::startVertex);
                             break;
 
-                        case modes::kruskalMode: // exiting the whole program in exit mode
+                        case modes::KRUSKALMODE: // exiting the whole program in exit mode
                             if (windowmgr::cursor.loadFromSystem( sf::Cursor::Arrow ))
                                 window->setMouseCursor( windowmgr::cursor );
                             graph->restoreDefault(); // to run kruskal again, restoring the colors of vertices & edges
                             KRUSKAL::kruskalMST(graph);
                             break;
 
-                        case modes::drawingMode: // adding vertices and edges in drawingmode
+                        case modes::DRAWINGMODE: // adding vertices and edges in DRAWINGMODE
                             if (windowmgr::cursor.loadFromSystem( sf::Cursor::Cross ))
                                 window->setMouseCursor(windowmgr::cursor); // change cursor to Cross
-                            windowmgr::drawingMode();
+                            windowmgr::DRAWINGMODE();
                             break;
 
-                        case modes::restoreMode: // exiting the whole program in exit mode
+                        case modes::RESTOREMODE: // exiting the whole program in exit mode
                             if (windowmgr::cursor.loadFromSystem( sf::Cursor::NotAllowed ))
                                 window->setMouseCursor( windowmgr::cursor );
-                            graph->restoreDefault(); // to run kruskal again, restoring the colors of vertices & edges
+                            graph->restoreDefault(); // restoring the colors of vertices & edges
                             D->m_start = NULL;
                             break;
 
-                        case modes::deleteMode: // deleting vertices and edges in drawingmode function, it is deletemode though
+                        case modes::DELETEMODE: // deleting vertices and edges in DRAWINGMODE function, it is DELETEMODE though
                             if (windowmgr::cursor.loadFromSystem( sf::Cursor::Hand ))
                                 window->setMouseCursor( windowmgr::cursor ); // change cursor to Hand
-                            windowmgr::drawingMode();
+                            windowmgr::DRAWINGMODE();
                             break;
 
-                        case modes::clearMode: // clearing the graph in cancel mode
+                        case modes::CLEARMODE: // clearing the graph in cancel mode
                             if (windowmgr::cursor.loadFromSystem( sf::Cursor::NotAllowed ))
                                 window->setMouseCursor( windowmgr::cursor ); // change cursor to NotAllowed
                             delete graph;
@@ -170,17 +170,14 @@ int main()
                             windowmgr::graph = graph;
                             break;
 
-                        case modes::exitMode: // exiting the whole program in exit mode
-                            delete D;
-                            delete graph;
-                            delete window;
-                            return 0;
+                        case modes::EXITMODE: // exiting the whole program in exit mode
+                            windowmgr::RUNNING = false;
                             break;
-
+                            
                         default:
                             if (windowmgr::cursor.loadFromSystem(sf::Cursor::Arrow))
                                 window->setMouseCursor(windowmgr::cursor);
-                            windowmgr::drawingMode();
+                            windowmgr::DRAWINGMODE();
                             break;
                         }
                     }
@@ -214,6 +211,23 @@ int main()
             windowmgr::renderButtons();
 
             window->display();
+
+        }
+
+        if( D )
+        {
+            delete D;
+            D = NULL;
+        }
+        if( graph )
+        {
+            delete graph;
+            graph = NULL;
+        }
+        if( window )
+        {
+            delete window;
+            window = NULL;
         }
     }
     catch (std::bad_alloc &ba)
@@ -236,6 +250,7 @@ void windowmgr::createButtons()
     m_sprite = new sf::Sprite;
     m_sprite->setTexture( *m_texture );
     m_sprite->setPosition( sf::Vector2f(SCREEN_WIDTH-250, 0) );
+    
     sf::IntRect rect = m_sprite->getTextureRect();
     float X = 250.f/rect.width;
     float Y = static_cast<float> (SCREEN_HEIGHT)/rect.height;
@@ -272,7 +287,7 @@ void windowmgr::createButtons()
     buttons.push_back(exit);
 
     sf::Vector2f size(120.f, 30.f);
-    sf::Vector2f pos(SCREEN_WIDTH-size.x-65.f, 200.f );
+    sf::Vector2f pos( SCREEN_WIDTH-size.x-65.f, 200.f );
     int i = 0;
     for (button *b : buttons)
     {
@@ -282,7 +297,7 @@ void windowmgr::createButtons()
     }
 
     /*setting coordinates for generating button area*/
-    buttonArea.width = SCREEN_WIDTH - 270.f;
+    buttonArea.width = SCREEN_WIDTH - 275.f;
     buttonArea.height = SCREEN_HEIGHT;
     // top left corner coordinates of rectangular button
     buttonArea.left = 0.f;
@@ -311,7 +326,7 @@ inline void windowmgr::getMode()
     }
 }
 
-inline void windowmgr::drawingMode()
+inline void windowmgr::DRAWINGMODE()
 {
     mouseX = sf::Mouse::getPosition(*window).x;
     mouseY = sf::Mouse::getPosition(*window).y;
@@ -319,7 +334,7 @@ inline void windowmgr::drawingMode()
     vertexA = graph->getVertex((sf::Vector2f)sf::Mouse::getPosition(*window));
 
     // removing vertex is also done in this function, so separated for drawing mode and delete mode
-    if (windowmgr::mode == modes::drawingMode)
+    if (windowmgr::mode == modes::DRAWINGMODE)
     {
         if (!vertexA && buttonArea.contains(mouseX, mouseY)) // if no vertex there, make the vertex
         {
@@ -352,9 +367,3 @@ inline void windowmgr::getStartingVertex()
     startVertex = NULL;
     startVertex = graph->getVertex((sf::Vector2f)sf::Mouse::getPosition(*window));
 }
-
-// inline void windowmgr::getDestinationVertex()
-// {
-
-//     startVertex = graph->getVertex((sf::Vector2f)sf::Mouse::getPosition(*window));
-// }

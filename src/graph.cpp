@@ -5,6 +5,8 @@ Graph::Graph( sf::RenderWindow* window, int& mode ) :m_window( window ), m_mode(
 Graph::~Graph()
 {
 	this->m_window = NULL; //m_window is actually just a reference to the main sfml window
+	vertices.clear();
+	edges.clear();
 }
 
 void Graph::addVertex( float x, float y )
@@ -22,7 +24,7 @@ void Graph::removeVertex( Vertex* v )		//remove vertex v or remove the vertex at
 		{
 			Vertex* temp = vertices.back();
 			removeEdge( vertices.back() );
-			vertices.pop_back();
+		
 			m_adj.erase(temp);
 			visited.erase(temp);
 
@@ -30,6 +32,9 @@ void Graph::removeVertex( Vertex* v )		//remove vertex v or remove the vertex at
 			{
 				m_adj[ver].remove( temp );
 			}
+
+			vertices.pop_back();
+			if( temp ) delete temp;
 		}
 
 		else  	 //if in delete mode, and a vertex is passed as parameter
@@ -109,7 +114,7 @@ void Graph::draw()
 	}
 }
 
-void Graph::BFS( Vertex *start )
+void Graph::BFS( Vertex *start ) 
 {	
 	if( !start ) return;
     for( Vertex *v : vertices )
@@ -118,7 +123,7 @@ void Graph::BFS( Vertex *start )
     }
 
 	bool sameVertex = false;  //checks if vertex used in the statement below is equal to start
-	for( Vertex *vertex: vertices )
+	for( Vertex *vertex: vertices ) 
 	{
 		if( sameVertex == true) start = vertex;  
 		if( vertex == start) sameVertex = true;
@@ -153,7 +158,7 @@ void Graph::BFS( Vertex *start )
 		}
 
 		update( false );
-		start = vertex;
+		start = vertex; 
 	}
 }
 
@@ -164,7 +169,6 @@ void Graph::DFS( Vertex *start )
     {
         visited[v]=0;   //initially not visited
     }
-	//this->edges.clear();
 
 	bool sameVertex = false;
 	for( Vertex *vertex : vertices )
@@ -185,13 +189,12 @@ void Graph::DFS( Vertex *start )
 
 void Graph::dftraverse( Vertex *v )
 {
-	visited[v]++;
+	visited[v] = 1;
 	for( Vertex *u: m_adj[v] )
 	{
 		if( !visited[u] )
 		{
 			u->m_scanning = true;
-			visited[u] = 1;
 
 			m_edgeList[{ u, v }]->m_scanning = true;    //changing color of edge 
             m_edgeList[{ v, u }]->m_scanning = true;
@@ -207,9 +210,8 @@ void Graph::dftraverse( Vertex *v )
 
 void Graph::update( bool slp )
 {
-	// m_window->clear( sf::Color::Black );
 	m_window->clear( sf::Color(33, 31, 32) );
-	//m_window->clear(sf::Color::Cyan);
+
 	draw();
 	m_window->display();
 	if( slp )sleep(1); 
@@ -217,9 +219,7 @@ void Graph::update( bool slp )
 
 void Graph::restoreDefault()  //restore default everything about vertex and edges to run algorithms again
 {
-	// m_window->clear( sf::Color::Black );
 	m_window->clear( sf::Color(33, 31, 32) );
-	//m_window->clear(sf::Color::Cyan);
 
 	for ( Edge* e : edges )
 	{

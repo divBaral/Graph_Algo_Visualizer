@@ -8,6 +8,12 @@ heap::heap()
     elements = new std::pair<Vertex*, std::list<Edge*>>[size];
 }
 
+heap::~heap()
+{
+    if( elements )
+        delete [] elements;
+}
+
 void heap::swap(int index1, int index2)
 {
     std::pair<Vertex*, std::list<Edge*>> temp = elements[index1];
@@ -94,7 +100,7 @@ void priorityqueue::enqueue(std::pair<Vertex*, std::list<Edge*>> e)
         }
         h->size *= 2;
 
-        //need to delete temp
+        delete [] temp;
     }
     ++(h->lastindex);
     h->elements[h->lastindex] = e;
@@ -105,7 +111,7 @@ std::pair<Vertex*, std::list<Edge*>>  priorityqueue::dequeue()
 {
     std::pair<Vertex*, std::list<Edge*>> popped = h->elements[0];
     h->elements[0] = h->elements[h->lastindex];
-    //last element is still there needed to be cleared
+    
     h->lastindex--;
     h->shiftdown();
     return popped;
