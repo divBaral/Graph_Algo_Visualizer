@@ -12,8 +12,7 @@ Dijkstra::~Dijkstra()
 
 void Dijkstra::run( Graph *graph, Vertex *start = NULL )
 {
-    if( graph->vertices.empty() ) return;     //if there are no vertices, we return
-    if( !start && !m_start) return;   //if the algorithm was restored, or not run before, and no start is given now 
+    if( graph->vertices.empty() || ( !start && !m_start )) return;   //if no vertices are there and if the algorithm was restored, or not run before, and no start is given now 
 
     if( m_start && start )   //if dijkstra is already run and not restored, then we assign
     {                                   //start to destination if start is given

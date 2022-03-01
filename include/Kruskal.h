@@ -74,11 +74,6 @@ bool isConnected( Graph* g )
     }
     return true;
 
-
-
-
-   /* //
-*/
    
 }
 
@@ -129,12 +124,11 @@ void  kruskalMST( Graph* g )
         next_edge->m_v2->m_scanning = true;
 
 
-        int a = find( subsets, g->visited[next_edge->m_v1] );   //visited[next_edges->m_v1]
+        int a = find( subsets, g->visited[next_edge->m_v1] );   
         int b = find( subsets, g->visited[next_edge->m_v2] );
 
         if ( a != b ) 
         {
-			//resultMST.push_back(next_edge);
             next_edge->m_scanned = true;
             next_edge->m_v1->m_scanned = true;
             next_edge->m_v2->m_scanned = true;
@@ -143,6 +137,5 @@ void  kruskalMST( Graph* g )
         }
         g->update();
     }
-    //return resultMST;
 }
 }

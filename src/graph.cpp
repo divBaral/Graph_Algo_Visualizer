@@ -34,7 +34,11 @@ void Graph::removeVertex( Vertex* v )		//remove vertex v or remove the vertex at
 			}
 
 			vertices.pop_back();
-			if( temp ) delete temp;
+			if( temp )
+			{
+				delete temp;
+				temp = NULL;
+			}
 		}
 
 		else  	 //if in delete mode, and a vertex is passed as parameter
@@ -123,10 +127,12 @@ void Graph::BFS( Vertex *start )
     }
 
 	bool sameVertex = false;  //checks if vertex used in the statement below is equal to start
+	auto prev_start = start;
+
 	for( Vertex *vertex: vertices ) 
 	{
 		if( sameVertex == true) start = vertex;  
-		if( vertex == start) sameVertex = true;
+		if( vertex == prev_start) sameVertex = true;
 
 		if( !visited[start] )
 		{
@@ -171,10 +177,12 @@ void Graph::DFS( Vertex *start )
     }
 
 	bool sameVertex = false;
+	auto prev_start = start;
+
 	for( Vertex *vertex : vertices )
 	{
 		if( sameVertex == true) start = vertex;  
-		if( vertex == start) sameVertex = true;
+		if( vertex == prev_start) sameVertex = true;
 
 		if( !visited[start] )
 		{	

@@ -20,9 +20,9 @@ class Dijkstra
     std::map<Vertex*, float> dist;     //for checking if the distance is lesser than that of the distance in priority queue
     std::map<Vertex*, std::list<Edge*>> shortestLink;    //this is the final shortest routes of all vertices from the source
     sf::RenderWindow *m_window;
-    Vertex* m_destination;
+    Vertex* m_destination = NULL;
 public:
-    Vertex* m_start;
+    Vertex* m_start = NULL;
     Dijkstra( sf::RenderWindow* );
     ~Dijkstra();
     void run( Graph*, Vertex* );
