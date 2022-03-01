@@ -101,11 +101,12 @@ int main()
                 }
 
                 case sf::Event::MouseButtonPressed:
-                    if (event.mouseButton.button == sf::Mouse::Left)
+                    if ( event.mouseButton.button == sf::Mouse::Left)
                     {
                         windowmgr::mouseX = sf::Mouse::getPosition( *window ).x;
                         windowmgr::mouseY = sf::Mouse::getPosition( *window ).y;
                         windowmgr::getMode();
+                        windowmgr::getStartingVertex();
 
                         switch (windowmgr::mode)
                         {
@@ -114,31 +115,38 @@ int main()
                             if (windowmgr::cursor.loadFromSystem( sf::Cursor::Arrow ))
                                 window->setMouseCursor( windowmgr::cursor ); // change cursor to arrow
                             graph->restoreDefault(); // to run dijkstra again, restoring the colors of vertices & edges
-                            windowmgr::getStartingVertex();
+                            
                             D->run(graph, windowmgr::startVertex);
                             break;
 
                         case modes::BFSMODE: // run bfs
                             if (windowmgr::cursor.loadFromSystem( sf::Cursor::Arrow ))
                                 window->setMouseCursor( windowmgr::cursor );
-                            windowmgr::getStartingVertex();
-                            graph->restoreDefault(); // to run bfs again, restoring the colors of vertices & edges
-                            graph->BFS(windowmgr::startVertex);
+                            if( windowmgr::startVertex )
+                            {
+                                graph->restoreDefault(); // to run bfs again, restoring the colors of vertices & edges
+                                graph->BFS(windowmgr::startVertex);
+                            }
                             break;
 
                         case modes::DFSMODE: // run dfs
                             if (windowmgr::cursor.loadFromSystem( sf::Cursor::Arrow ))
                                 window->setMouseCursor(windowmgr::cursor);
+                            if( windowmgr::startVertex )
+                            {
                             graph->restoreDefault(); // to run dfs again, restoring the colors of vertices & edges
-                            windowmgr::getStartingVertex();
                             graph->DFS(windowmgr::startVertex);
+                            }
                             break;
 
                         case modes::KRUSKALMODE: // exiting the whole program in exit mode
                             if (windowmgr::cursor.loadFromSystem( sf::Cursor::Arrow ))
                                 window->setMouseCursor( windowmgr::cursor );
+                            if( windowmgr::startVertex )
+                            {
                             graph->restoreDefault(); // to run kruskal again, restoring the colors of vertices & edges
                             KRUSKAL::kruskalMST(graph);
+                            }
                             break;
 
                         case modes::DRAWINGMODE: // adding vertices and edges in DRAWINGMODE
@@ -315,6 +323,7 @@ inline void windowmgr::renderButtons()
 
 inline void windowmgr::getMode()
 {
+
     for (auto b : buttons)
     {
         // selecting button
@@ -324,6 +333,7 @@ inline void windowmgr::getMode()
             break;
         }
     }
+
 }
 
 inline void windowmgr::DRAWINGMODE()

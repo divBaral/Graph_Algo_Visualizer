@@ -102,6 +102,13 @@ void Dijkstra::run( Graph *graph, Vertex *start = NULL )
         for( Edge* e : shortestLink[m_destination])   //we just show all the edges in the shortestlink of that vertex
         {
             e->m_scanned = true;
+            auto v1 = e->m_v1;
+            auto v2 = e->m_v2;
+            v1->m_dist = queue.h->getDist(shortestLink[v1]);
+            v2->m_dist = queue.h->getDist(shortestLink[v2]);
+            v1->m_scanned = true;
+            v2->m_scanned = true;
+            
             graph->update();
         }
 

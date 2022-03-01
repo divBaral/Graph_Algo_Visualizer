@@ -6,6 +6,13 @@ bool sortComparer( Edge* a, Edge* b ) {
     return a->m_weight <= b->m_weight;
 }
 
+void swap( int& a, int& b )
+{
+    int temp = a;
+    a = b;
+    b = a;
+}
+
 
 std::vector<Edge*> sortEdges( std::vector <Edge*> edges ) {
     std::sort(edges.begin(), edges.end(), sortComparer);
@@ -28,18 +35,15 @@ void union_edges( std::vector<subset> & subsets, int a, int b)
 {
     int aroot = find(subsets, a);
     int broot = find(subsets, b);
-
-    if ( subsets[aroot].rank < subsets[broot].rank ) {
-        subsets[aroot].parent = broot;
-    }
-    else if ( subsets[aroot].rank > subsets[broot].rank ) 
-    {
+    if ( aroot != broot ) {
+        if ( subsets[aroot].rank < subsets[broot].rank ) 
+            swap( aroot, broot );
         subsets[broot].parent = aroot;
-    }
-    else 
-    {
-        subsets[broot].parent = aroot;
-        subsets[broot].rank++;
+        if ( subsets[aroot].rank == subsets[aroot].rank ) 
+        {
+           subsets[aroot].rank++;
+        }
+        
     }
 }
 bool isConnected( Graph* g )

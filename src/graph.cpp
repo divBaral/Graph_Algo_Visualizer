@@ -34,11 +34,6 @@ void Graph::removeVertex( Vertex* v )		//remove vertex v or remove the vertex at
 			}
 
 			vertices.pop_back();
-			if( temp )
-			{
-				delete temp;
-				temp = NULL;
-			}
 		}
 
 		else  	 //if in delete mode, and a vertex is passed as parameter
