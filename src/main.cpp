@@ -142,11 +142,11 @@ int main()
                         case modes::KRUSKALMODE: // exiting the whole program in exit mode
                             if (windowmgr::cursor.loadFromSystem( sf::Cursor::Arrow ))
                                 window->setMouseCursor( windowmgr::cursor );
-                            if( windowmgr::startVertex )
-                            {
+                            //if( windowmgr::startVertex )
+                            //{
                             graph->restoreDefault(); // to run kruskal again, restoring the colors of vertices & edges
                             KRUSKAL::kruskalMST(graph);
-                            }
+                            //}
                             break;
 
                         case modes::DRAWINGMODE: // adding vertices and edges in DRAWINGMODE

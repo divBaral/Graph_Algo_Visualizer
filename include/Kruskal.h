@@ -33,17 +33,33 @@ int find( std::vector<subset> & subsets, int i ) {
 
 void union_edges( std::vector<subset> & subsets, int a, int b) 
 {
+    // int aroot = find(subsets, a);
+    // int broot = find(subsets, b);
+    // if ( aroot != broot ) {
+    //     if ( subsets[aroot].rank < subsets[broot].rank ) 
+    //         swap( aroot, broot );
+    //     subsets[broot].parent = aroot;
+    //     if ( subsets[aroot].rank == subsets[aroot].rank ) 
+    //     {
+    //        subsets[aroot].rank++;
+    //     }
+        
+    // }
+
     int aroot = find(subsets, a);
     int broot = find(subsets, b);
-    if ( aroot != broot ) {
-        if ( subsets[aroot].rank < subsets[broot].rank ) 
-            swap( aroot, broot );
+
+    if ( subsets[aroot].rank < subsets[broot].rank ) {
+        subsets[aroot].parent = broot;
+    }
+    else if ( subsets[aroot].rank > subsets[broot].rank ) 
+    {
         subsets[broot].parent = aroot;
-        if ( subsets[aroot].rank == subsets[aroot].rank ) 
-        {
-           subsets[aroot].rank++;
-        }
-        
+    }
+    else 
+    {
+        subsets[broot].parent = aroot;
+        subsets[broot].rank++;
     }
 }
 bool isConnected( Graph* g )
