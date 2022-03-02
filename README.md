@@ -3,7 +3,7 @@ This is school project on Data Structures and Algorithms. We have implemented fo
 1) DFS 
 2) BFS
 3) Dijkstra 
-4) Krusal for minimum spanning tree.
+4) Kruskal for minimum spanning tree.
 
 
 We have used SFML to render graphics.
