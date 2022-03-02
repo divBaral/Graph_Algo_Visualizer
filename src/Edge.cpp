@@ -30,7 +30,7 @@ Edge::Edge(  Vertex* v1,  Vertex* v2, int weight )
 	m_linesize.x = sqrt( pow(x2-x1, 2) + pow(y2-y1, 2) );
 	m_linesize.y = 2;
 	m_line->setSize( m_linesize );
-	m_weight = m_linesize.x;
+	m_weight = m_linesize.x / 10;
 	m_text.setString( std::to_string(m_weight) );
 
 	double angle;
